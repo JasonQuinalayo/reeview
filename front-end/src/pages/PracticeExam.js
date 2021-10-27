@@ -7,7 +7,9 @@ import { useStateValue } from '../state';
 
 const PracticeExam = () => {
   const [{ questions }] = useStateValue();
-  const [numOfQuestions, setNumOfQuestions] = useState({ ee: 1, esas: 1, math: 1 });
+  const [numOfQuestions, setNumOfQuestions] = useState({ ee: 0, esas: 0, math: 0 });
+  const [isOnePage, setIsOnePage] = useState(false);
+
   const getRangeSettings = (category) => ({
     start: 0,
     min: 0,
@@ -17,14 +19,18 @@ const PracticeExam = () => {
       setNumOfQuestions((prevState) => ({ ...prevState, [category]: value }));
     },
   });
+
   const onInputChange = (category) => (e) => {
     let value = parseInt(e.target.value, 10);
     if (!value) value = 0;
     else if (value > questions[category].length) value = questions[category].length;
     setNumOfQuestions((prevState) => ({ ...prevState, [category]: value }));
   };
+
+  const start = () => { console.log(isOnePage); };
+
   const getSliderComponent = (category) => (
-    <Segment key={category}>
+    <Segment basic key={category}>
       <Grid columns={3}>
         <Grid.Column width={2}>
           {category.toUpperCase()}
@@ -42,11 +48,9 @@ const PracticeExam = () => {
     <Container>
       {['ee', 'esas', 'math'].map((category) => (getSliderComponent(category)))}
       <Divider hidden />
-      <Segment.Inline>
-        <Checkbox label="View questions in one page" />
-      </Segment.Inline>
+      <Checkbox onClick={() => setIsOnePage((prev) => !prev)} label="View questions in one page" />
       <Divider hidden />
-      <Button type="button">Start</Button>
+      <Button type="button" onClick={start}>Start</Button>
     </Container>
   );
 };
