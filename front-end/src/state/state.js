@@ -2,6 +2,11 @@ import React, { createContext, useContext, useReducer } from 'react';
 
 const initialState = {
   user: null,
+  questions: {
+    ee: [],
+    esas: [],
+    math: [],
+  },
 };
 
 export const StateContext = createContext([

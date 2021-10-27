@@ -1,3 +1,3 @@
-const backendUrl = process.env.BACKEND_URL;
+const backendUrl = 'http://localhost:3000/api';
 
 export default { backendUrl };

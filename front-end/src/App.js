@@ -5,15 +5,20 @@ import NavBar from './components/NavBar';
 import Home from './components/Home';
 import Profile from './components/Profile';
 import Questions from './components/Questions';
-import { setUser, useStateValue } from './state';
-import userService from './services/user';
+import PracticeExam from './components/PracticeExam';
+import { setQuestions, useStateValue } from './state';
+import questionsService from './services/questions';
 
 const App = () => {
   const [, dispatch] = useStateValue();
   useEffect(() => {
     const f = async () => {
-      const user = userService.getUser();
-      dispatch(setUser(user));
+      const questions = await questionsService.getQuestions();
+      const categorizedQuestions = { ee: [], esas: [], math: [] };
+      questions.forEach((question) => {
+        categorizedQuestions[question.category].push(question);
+      });
+      dispatch(setQuestions(categorizedQuestions));
     };
     f();
   }, [dispatch]);
@@ -24,7 +29,7 @@ const App = () => {
           <NavBar />
           <Divider hidden />
           <Switch>
-            <Route exact path="/">
+            <Route exact path="/home">
               <Home />
             </Route>
             <Route exact path="/profile">
@@ -32,6 +37,9 @@ const App = () => {
             </Route>
             <Route exact path="/questions">
               <Questions />
+            </Route>
+            <Route exact path="/practice-exam">
+              <PracticeExam />
             </Route>
           </Switch>
         </Container>

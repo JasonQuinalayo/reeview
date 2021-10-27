@@ -5,7 +5,7 @@ import { Button, Menu } from 'semantic-ui-react';
 const NavBar = () => (
   <Menu pointing secondary>
     <Menu.Item>
-      <Link to="/">
+      <Link to="/home">
         Home
       </Link>
     </Menu.Item>

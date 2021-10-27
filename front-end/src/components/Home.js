@@ -1,18 +1,21 @@
 import React from 'react';
-import { Button, Segment } from 'semantic-ui-react';
+import { Container, Button, Segment } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 const Home = () => (
-  <div className="Home">
-    <Button type="button">
-      Take A Practice Exam
-    </Button>
+  <Container>
+    <Link to="/practice-exam">
+      <Button type="button">
+        Take A Practice Exam
+      </Button>
+    </Link>
     <Segment>
       No currently hosted group exams. Try refreshing.
     </Segment>
     <Segment size="massive">
-      Top 3 (Most Recent Group Exams)
+      Announcements:
     </Segment>
-  </div>
+  </Container>
 );
 
 export default Home;
