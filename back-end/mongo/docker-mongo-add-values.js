@@ -19,10 +19,10 @@ const ee2017 = JSON.parse('[{"id":1,"questionnaire":"It is difficult to magnetiz
 db.questions.insertMany(esas2020.map((q) => ({
   question: q.questionnaire,
   choices: {
-    A: q.optionA,
-    B: q.optionB,
-    C: q.optionC,
-    D: q.optionD,
+    a: q.optionA,
+    b: q.optionB,
+    c: q.optionC,
+    d: q.optionD,
   },
   answer: q.answer.charAt(q.answer.length - 1),
   maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
@@ -35,10 +35,10 @@ db.questions.insertMany(esas2020.map((q) => ({
 db.questions.insertMany(esas2019.map((q) => ({
   question: q.questionnaire,
   choices: {
-    A: q.optionA,
-    B: q.optionB,
-    C: q.optionC,
-    D: q.optionD,
+    a: q.optionA,
+    b: q.optionB,
+    c: q.optionC,
+    d: q.optionD,
   },
   answer: q.answer.charAt(q.answer.length - 1),
   maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
@@ -50,10 +50,10 @@ db.questions.insertMany(esas2019.map((q) => ({
 db.questions.insertMany(esas2018.map((q) => ({
   question: q.questionnaire,
   choices: {
-    A: q.optionA,
-    B: q.optionB,
-    C: q.optionC,
-    D: q.optionD,
+    a: q.optionA,
+    b: q.optionB,
+    c: q.optionC,
+    d: q.optionD,
   },
   answer: q.answer.charAt(q.answer.length - 1),
   maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
@@ -65,10 +65,10 @@ db.questions.insertMany(esas2018.map((q) => ({
 db.questions.insertMany(esas2017.map((q) => ({
   question: q.questionnaire,
   choices: {
-    A: q.optionA,
-    B: q.optionB,
-    C: q.optionC,
-    D: q.optionD,
+    a: q.optionA,
+    b: q.optionB,
+    c: q.optionC,
+    d: q.optionD,
   },
   answer: q.answer.charAt(q.answer.length - 1),
   maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
@@ -80,10 +80,10 @@ db.questions.insertMany(esas2017.map((q) => ({
 db.questions.insertMany(ee2019.map((q) => ({
   question: q.questionnaire,
   choices: {
-    A: q.optionA,
-    B: q.optionB,
-    C: q.optionC,
-    D: q.optionD,
+    a: q.optionA,
+    b: q.optionB,
+    c: q.optionC,
+    d: q.optionD,
   },
   answer: q.answer.charAt(q.answer.length - 1),
   maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
@@ -95,10 +95,10 @@ db.questions.insertMany(ee2019.map((q) => ({
 db.questions.insertMany(ee2018.map((q) => ({
   question: q.questionnaire,
   choices: {
-    A: q.optionA,
-    B: q.optionB,
-    C: q.optionC,
-    D: q.optionD,
+    a: q.optionA,
+    b: q.optionB,
+    c: q.optionC,
+    d: q.optionD,
   },
   answer: q.answer.charAt(q.answer.length - 1),
   maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
@@ -110,10 +110,10 @@ db.questions.insertMany(ee2018.map((q) => ({
 db.questions.insertMany(ee2017.map((q) => ({
   question: q.questionnaire,
   choices: {
-    A: q.optionA,
-    B: q.optionB,
-    C: q.optionC,
-    D: q.optionD,
+    a: q.optionA,
+    b: q.optionB,
+    c: q.optionC,
+    d: q.optionD,
   },
   answer: q.answer.charAt(q.answer.length - 1),
   maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),

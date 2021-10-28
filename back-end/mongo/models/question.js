@@ -5,17 +5,17 @@ const mongoose = require('mongoose');
 const questionSchema = new mongoose.Schema({
   question: { type: String, required: true },
   choices: {
-    A: { type: String, required: true },
-    B: { type: String, required: true },
-    C: { type: String, required: true },
-    D: { type: String, required: true },
+    a: { type: String, required: true },
+    b: { type: String, required: true },
+    c: { type: String, required: true },
+    d: { type: String, required: true },
   },
   maximumLengthChoice: Number,
   category: {
     type: String, required: true, enum: ['esas', 'ee', 'math'], default: 'ee',
   },
   tags: [String],
-  answer: { type: String, enum: ['A', 'B', 'C', 'D'], default: 'A' },
+  answer: { type: String, enum: ['a', 'b', 'c', 'd'], default: 'a' },
   submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   approvedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   year: { type: Number },

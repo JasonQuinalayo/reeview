@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { Container, Divider } from 'semantic-ui-react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
-import Home from './components/Home';
-import Profile from './components/Profile';
-import Questions from './components/Questions';
-import PracticeExam from './components/PracticeExam';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
+import Questions from './pages/Questions';
+import PracticeExam from './pages/PracticeExam';
 import { setQuestions, useStateValue } from './state';
 import questionsService from './services/questions';
 
