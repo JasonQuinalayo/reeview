@@ -1,45 +1,84 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import sampleSize from 'lodash.samplesize';
 import {
-  Button, Container, Label, Segment,
+  Button, Container, Grid, Segment,
 } from 'semantic-ui-react';
 import { useStateValue } from '../../state';
-import ExamQuestionCard from './ExamQuestionCard';
+import ExamQuestionCard from '../../components/ExamQuestionCard';
+import Results from './Results';
 
 const ExamProper = ({ numOfQuestions }) => {
   const [{ questions }] = useStateValue();
   const [submitted, setSubmitted] = useState(false);
-  const [sampleQuestions] = useState({
-    ee: sampleSize(questions.ee, numOfQuestions.ee),
-    esas: sampleSize(questions.esas, numOfQuestions.esas),
-    math: sampleSize(questions.math, numOfQuestions.math),
-  });
-  const [answers, setAnswers] = useState({ ee: {}, esas: {}, math: {} });
-  useEffect(() => {
-    if (!sampleQuestions) return;
-    const newAnswers = { ee: {}, esas: {}, math: {} };
-    sampleQuestions.ee.forEach((question) => { newAnswers.ee[question.id] = { user: '', correct: question.answer }; });
-    sampleQuestions.esas.forEach((question) => { newAnswers.esas[question.id] = { user: '', correct: question.answer }; });
-    sampleQuestions.math.forEach((question) => { newAnswers.math[question.id] = { user: '', correct: question.answer }; });
-    setAnswers(newAnswers);
-  }, [sampleQuestions]);
+  const [examItems, setExamItems] = useState(
+    sampleSize(questions.ee, numOfQuestions.ee).concat(
+      sampleSize(questions.esas, numOfQuestions.esas),
+    ).concat(
+      sampleSize(questions.math, numOfQuestions.math),
+    ).map((question) => ({ question, answer: { user: '', correct: question.answer } })),
+  );
+  const [currentPageNumber, setCurrentPageNumber] = useState(0);
+  const [currentPageItems, setCurrentPageItems] = useState(
+    examItems.slice(currentPageNumber * 10, currentPageNumber * 10 + 10),
+  );
 
-  /*
+  const updateExam = () => {
+    setExamItems((prevItems) => (
+      prevItems.slice(0, 10 * currentPageNumber)
+        .concat(currentPageItems.slice())
+        .concat(prevItems.slice(10 * currentPageNumber + 10))
+    ));
+  };
 
-    SPLIT INTO PAGES!!
+  const handleNextPage = () => {
+    updateExam();
+    setCurrentPageItems(examItems
+      .slice((currentPageNumber + 1) * 10, (currentPageNumber + 2) * 10));
+    setCurrentPageNumber((p) => p + 1);
+  };
 
-  */
+  const handlePrevPage = () => {
+    updateExam();
+    setCurrentPageItems(examItems
+      .slice((currentPageNumber - 1) * 10, (currentPageNumber) * 10));
+    setCurrentPageNumber((p) => p - 1);
+  };
+
   return (
     <Container>
-      {Object.keys(sampleQuestions).map((category) => (
-        sampleQuestions[category].map((question) => (
-          <Segment key={question.id}>
-            <ExamQuestionCard question={question} answers={answers} setAnswers={setAnswers} />
-            {submitted && <Label>{question.answer}</Label>}
-          </Segment>
-        ))
-      ))}
-      <Button type="button" onClick={() => setSubmitted(true)}>Submit</Button>
+      {!submitted
+        ? (
+          <Container>
+            <Grid columns={3}>
+              <Grid.Column width={2} verticalAlign="middle">
+                {currentPageNumber > 0
+                  && <Button type="button" onClick={handlePrevPage}>Previous</Button>}
+              </Grid.Column>
+              <Grid.Column width={12}>
+                {currentPageItems.map((item, i) => (
+                  <Segment key={item.question.id}>
+                    <ExamQuestionCard
+                      question={item.question}
+                      answerState={item.answer.user}
+                      updateFunction={(e, { value }) => {
+                        setCurrentPageItems((prevItems) => prevItems.slice(0, i)
+                          .concat({ ...item, answer: { ...item.answer, user: value } })
+                          .concat(prevItems.slice(i + 1)));
+                      }}
+                    />
+                  </Segment>
+                ))}
+                {currentPageNumber === Math.floor(examItems.length / 10)
+                  && <Button type="button" fluid onClick={() => { setSubmitted(true); updateExam(); }}>Submit</Button>}
+              </Grid.Column>
+              <Grid.Column width={2} verticalAlign="middle">
+                {currentPageNumber < Math.floor(examItems.length / 10)
+                  && <Button type="button" onClick={handleNextPage}>Next</Button>}
+              </Grid.Column>
+            </Grid>
+          </Container>
+        )
+        : <Results examItems={examItems} />}
     </Container>
   );
 };
