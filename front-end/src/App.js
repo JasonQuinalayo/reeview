@@ -8,6 +8,7 @@ import Questions from './pages/Questions';
 import PracticeExam from './pages/PracticeExam';
 import { setQuestions, useStateValue } from './state';
 import questionsService from './services/questions';
+import GroupExam from './pages/GroupExam';
 
 const App = () => {
   const [, dispatch] = useStateValue();
@@ -40,6 +41,9 @@ const App = () => {
             </Route>
             <Route exact path="/practice-exam">
               <PracticeExam />
+            </Route>
+            <Route exact path="/group-exam">
+              <GroupExam />
             </Route>
           </Switch>
         </Container>

@@ -19,6 +19,16 @@ const NavBar = () => (
         Questions
       </Link>
     </Menu.Item>
+    <Menu.Item>
+      <Link to="/practice-exam">
+        Practice
+      </Link>
+    </Menu.Item>
+    <Menu.Item>
+      <Link to="/group-exam">
+        Group Exam
+      </Link>
+    </Menu.Item>
     <Menu.Menu position="right">
       <Menu.Item>
         <Button type="button">

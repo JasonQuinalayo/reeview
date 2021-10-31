@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Container, Segment } from 'semantic-ui-react';
+import { Container, Icon, Segment } from 'semantic-ui-react';
 import ExamQuestionCard from '../../components/ExamQuestionCard';
 
 const Results = ({ examItems }) => {
@@ -14,7 +14,15 @@ const Results = ({ examItems }) => {
       {examItems.map((item) => (
         <Segment key={item.question.id}>
           <ExamQuestionCard question={item.question} answerState={item.answer.user} />
-          {`Correct answer: ${item.answer.correct.toUpperCase()}`}
+          {item.answer.user === item.answer.correct
+            ? <Icon name="check" color="green" /> : (
+              <Container>
+                <Icon name="x" color="red" />
+                Correct answer:
+                {' '}
+                {item.answer.correct.toUpperCase()}
+              </Container>
+            )}
         </Segment>
       ))}
     </Container>

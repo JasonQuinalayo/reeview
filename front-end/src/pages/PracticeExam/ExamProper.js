@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import sampleSize from 'lodash.samplesize';
+import shuffle from 'lodash.shuffle';
 import {
   Button, Container, Grid, Segment,
 } from 'semantic-ui-react';
@@ -11,11 +12,12 @@ const ExamProper = ({ numOfQuestions }) => {
   const [{ questions }] = useStateValue();
   const [submitted, setSubmitted] = useState(false);
   const [examItems, setExamItems] = useState(
-    sampleSize(questions.ee, numOfQuestions.ee).concat(
-      sampleSize(questions.esas, numOfQuestions.esas),
-    ).concat(
-      sampleSize(questions.math, numOfQuestions.math),
-    ).map((question) => ({ question, answer: { user: '', correct: question.answer } })),
+    shuffle(
+      sampleSize(questions.ee, numOfQuestions.ee).concat(
+        sampleSize(questions.esas, numOfQuestions.esas),
+        sampleSize(questions.math, numOfQuestions.math),
+      ).map((question) => ({ question, answer: { user: '', correct: question.answer } })),
+    ),
   );
   const [currentPageNumber, setCurrentPageNumber] = useState(0);
   const [currentPageItems, setCurrentPageItems] = useState(

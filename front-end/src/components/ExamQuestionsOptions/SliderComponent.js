@@ -2,7 +2,7 @@ import React from 'react';
 import { Slider } from 'react-semantic-ui-range';
 import { Grid, Input, Container } from 'semantic-ui-react';
 
-const SliderSegment = ({
+const SliderComponent = ({
   category, max, setNumOfQuestions, categoryNumOfQuestions,
 }) => {
   const settings = {
@@ -39,4 +39,4 @@ const SliderSegment = ({
   );
 };
 
-export default SliderSegment;
+export default SliderComponent;

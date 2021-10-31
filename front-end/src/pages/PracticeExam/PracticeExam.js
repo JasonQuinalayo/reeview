@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Button, Divider } from 'semantic-ui-react';
+import {
+  Container, Button, Divider, Segment,
+} from 'semantic-ui-react';
 import ExamQuestionsOptions from '../../components/ExamQuestionsOptions/ExamQuestionsOptions';
 import ExamProper from './ExamProper';
 
@@ -16,6 +18,11 @@ const PracticeExam = () => {
               numOfQuestions={numOfQuestions}
               setNumOfQuestions={setNumOfQuestions}
             />
+            <Segment>
+              Total Questions:
+              {' '}
+              {numOfQuestions.ee + numOfQuestions.esas + numOfQuestions.math}
+            </Segment>
             <Divider hidden />
             <Button type="button" onClick={() => { setStarted(true); }}>Start</Button>
           </>
