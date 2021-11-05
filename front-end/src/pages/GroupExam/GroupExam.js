@@ -3,27 +3,38 @@ import { Button, Container, Segment } from 'semantic-ui-react';
 import { io } from 'socket.io-client';
 import CreateLobbyModal from './CreateLobbyModal';
 import GroupExamLobby from './GroupExamLobby';
+import Lobbies from './Lobbies';
+import { useStateValue, setQuestions } from '../../state';
+import { questionsService } from '../../services';
 
 const GroupExam = () => {
+  const [, dispatch] = useStateValue();
   const [socket, setSocket] = useState(null);
-  const [lobbies, setLobbies] = useState([]);
   const [create, setCreate] = useState(false);
   const [lobbyId, setLobbyId] = useState('');
 
   useEffect(() => {
     const newSocket = io('http://localhost:3000');
-    newSocket.emit('get-lobbies');
-    newSocket.on('lobbies', (lobbiesKeys) => { setLobbies(lobbiesKeys); });
-    newSocket.on('join-lobby', (id) => {
+    newSocket.on('join-lobby', async (id) => {
       setLobbyId(id);
+      const questions = await questionsService.getQuestions();
+      const categorizedQuestions = { ee: {}, esas: {}, math: {} };
+      questions.forEach((question) => {
+        categorizedQuestions[question.category][question.id] = question;
+      });
+      dispatch(setQuestions(categorizedQuestions));
     });
     setSocket(newSocket);
     return () => {
-      newSocket.off('lobbies');
       newSocket.off('join-lobby');
       newSocket.close();
     };
-  }, []);
+  }, [dispatch]);
+
+  const onCreate = (numOfQuestions, timeInterval) => {
+    if (!socket) return;
+    socket.emit('create-lobby', numOfQuestions, timeInterval);
+  };
 
   return (
     <Container>
@@ -31,33 +42,19 @@ const GroupExam = () => {
         ? (
           <>
             <Segment>
-              Currently hosted:
-              {lobbies.map((lobby) => (
-                <Container>
-                  {lobby}
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      if (!socket) return;
-                      socket.emit('join-lobby', lobby);
-                    }}
-                  >
-                    Join
-                  </Button>
-                </Container>
-              ))}
+              <Lobbies socket={socket} />
             </Segment>
             <Button type="button" onClick={() => setCreate((p) => !p)}>
               Create Lobby
             </Button>
             <CreateLobbyModal
-              socket={socket}
+              onSubmit={onCreate}
               modalOpen={create}
               onClose={() => setCreate((p) => !p)}
             />
           </>
         )
-        : <GroupExamLobby socket={socket} />}
+        : <GroupExamLobby socket={socket} create={create} />}
     </Container>
   );
 };

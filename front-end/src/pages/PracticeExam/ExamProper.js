@@ -6,6 +6,7 @@ import {
 } from 'semantic-ui-react';
 import { useStateValue } from '../../state';
 import ExamQuestionCard from '../../components/ExamQuestionCard';
+import { questionObjectToArray } from '../../utils';
 import Results from './Results';
 
 const ExamProper = ({ numOfQuestions }) => {
@@ -13,9 +14,9 @@ const ExamProper = ({ numOfQuestions }) => {
   const [submitted, setSubmitted] = useState(false);
   const [examItems, setExamItems] = useState(
     shuffle(
-      sampleSize(questions.ee, numOfQuestions.ee).concat(
-        sampleSize(questions.esas, numOfQuestions.esas),
-        sampleSize(questions.math, numOfQuestions.math),
+      sampleSize(questionObjectToArray(questions.ee), numOfQuestions.ee).concat(
+        sampleSize(questionObjectToArray(questions.esas), numOfQuestions.esas),
+        sampleSize(questionObjectToArray(questions.math), numOfQuestions.math),
       ).map((question) => ({ question, answer: { user: '', correct: question.answer } })),
     ),
   );
@@ -62,7 +63,7 @@ const ExamProper = ({ numOfQuestions }) => {
                     <ExamQuestionCard
                       question={item.question}
                       answerState={item.answer.user}
-                      updateFunction={(e, { value }) => {
+                      updateFunction={(value) => {
                         setCurrentPageItems((prevItems) => prevItems.slice(0, i)
                           .concat({ ...item, answer: { ...item.answer, user: value } })
                           .concat(prevItems.slice(i + 1)));

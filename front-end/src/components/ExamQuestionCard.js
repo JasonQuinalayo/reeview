@@ -2,13 +2,15 @@ import React from 'react';
 import { Container, Grid, Radio } from 'semantic-ui-react';
 
 const ExamQuestionCard = ({ question, answerState, updateFunction }) => {
-  const handleChange = (e, res) => {
+  const handleChange = (e, { value }) => {
     if (!updateFunction) return;
-    updateFunction(e, res);
+    updateFunction(value);
   };
   return (
     <Container>
-      {question.question}
+      <Container className="pre-wrap-whitespace">
+        {question.question}
+      </Container>
       <Grid columns={2}>
         <Grid.Column>
           <Container>

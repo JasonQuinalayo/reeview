@@ -1,18 +1,21 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-underscore-dangle */
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true },
-  name: { type: String, required: true },
+  username: {
+    type: String, minlength: 6, maxlength: 24, required: true,
+  },
+  name: {
+    type: String, minLength: 3, maxLength: 24, required: true,
+  },
   isAdmin: { type: Boolean, default: false },
   passwordHash: { type: String, required: true },
-  lastMajorExamResults: {
+  lastGroupExamResults: {
     totalQuestions: Number,
     correctAnswers: Number,
     mistakes: [{
       question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
-      yourAnswer: { type: String, enum: ['A', 'B', 'C', 'D'], default: 'A' },
+      yourAnswer: { type: String, enum: ['a', 'b', 'c', 'd'], default: 'a' },
     }],
   },
   lastPracticeExamResults: {
@@ -20,7 +23,7 @@ const userSchema = new mongoose.Schema({
     correctAnswers: Number,
     mistakes: [{
       question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
-      yourAnswer: { type: String, enum: ['A', 'B', 'C', 'D'], default: 'A' },
+      yourAnswer: { type: String, enum: ['a', 'b', 'c', 'd'], default: 'a' },
     }],
   },
   overAllPerformance: {

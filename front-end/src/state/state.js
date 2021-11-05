@@ -3,13 +3,13 @@ import React, { createContext, useContext, useReducer } from 'react';
 const initialState = {
   user: null,
   questions: {
-    ee: [],
-    esas: [],
-    math: [],
+    ee: {},
+    esas: {},
+    math: {},
   },
 };
 
-export const StateContext = createContext([
+const StateContext = createContext([
   initialState,
   () => initialState,
 ]);

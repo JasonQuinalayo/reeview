@@ -1,11 +1,15 @@
 import React from 'react';
 import { Container, Grid, Segment } from 'semantic-ui-react';
 import { useStateValue } from '../../state';
+import { questionObjectToArray } from '../../utils';
 import Card from './Card';
 
 const Questions = () => {
   const [{ questions }] = useStateValue();
-  const singleQuestionsArray = questions.ee.concat(questions.esas.concat(questions.math));
+  const singleQuestionsArray = questionObjectToArray(questions.ee).concat(
+    questionObjectToArray(questions.esas),
+    questionObjectToArray(questions.math),
+  );
   return (
     <Container>
       <Grid columns={2}>

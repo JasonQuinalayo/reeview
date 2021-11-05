@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 const mongoose = require('mongoose');
 
-const questionSchema = new mongoose.Schema({
+const pendingQuestionSchema = new mongoose.Schema({
   question: { type: String, required: true },
   choices: {
     a: { type: String, required: true },
@@ -16,7 +16,6 @@ const questionSchema = new mongoose.Schema({
   tags: [String],
   answer: { type: String, enum: ['a', 'b', 'c', 'd'], default: 'a' },
   submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  approvedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   year: {
     type: Number,
     validate: {
@@ -27,7 +26,7 @@ const questionSchema = new mongoose.Schema({
   imgSrc: { type: String },
 });
 
-questionSchema.set('toJSON', {
+pendingQuestionSchema.set('toJSON', {
   transform: (_, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -35,4 +34,4 @@ questionSchema.set('toJSON', {
   },
 });
 
-module.exports = mongoose.model('Question', questionSchema);
+module.exports = mongoose.model('PendingQuestion', pendingQuestionSchema);

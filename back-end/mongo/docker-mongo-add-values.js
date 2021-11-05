@@ -3,7 +3,7 @@
 db.createCollection('users');
 
 const user = db.users.insertOne({
-  username: 'user', name: 'kvothe', isAdmin: true, passwordHash: '$2a$10$NbnDQXGHtAWmRtVJDqz5UO7czfliA89T3iSG4yAfU1FHTBDeuIIYW',
+  username: 'kvothe', name: 'kvothe', isAdmin: true, passwordHash: '$2a$10$qviWOSj0yQKr4QYLMa56sukfSJZ4CLRwSMPjVZCKgQgUHWDvzyxj6'
 });
 
 db.createCollection('questions');

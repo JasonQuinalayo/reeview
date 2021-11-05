@@ -1,0 +1,20 @@
+.chat-box {
+  height: 500px;
+  overflow-y: scroll;
+  display: flex;
+  flex-flow: column-reverse;
+}
+
+.pre-wrap-whitespace {
+  white-space: pre-wrap;
+}
+
+.ui.grid.chat-box-grid {
+  margin: 0;
+}
+
+.ui.grid.chat-box-grid>.column.zero-padding {
+  padding-left: 1px;
+  padding-right: 1px;
+  padding-bottom: 0;
+}

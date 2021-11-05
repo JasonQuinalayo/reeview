@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Input, Modal } from 'semantic-ui-react';
 import ExamQuestionsOptions from '../../components/ExamQuestionsOptions/ExamQuestionsOptions';
 
-const CreateLobbyModal = ({ socket, modalOpen, onClose }) => {
+const CreateLobbyModal = ({ onSubmit, modalOpen, onClose }) => {
   const [numOfQuestions, setNumOfQuestions] = useState({ ee: 0, esas: 0, math: 0 });
   const [timeInterval, setTimeInterval] = useState(5);
   const handleTimeIntervalInput = (e) => {
@@ -25,7 +25,7 @@ const CreateLobbyModal = ({ socket, modalOpen, onClose }) => {
           value={timeInterval}
           onChange={handleTimeIntervalInput}
         />
-        <Button type="button" onClick={() => socket.emit('create-lobby', numOfQuestions, timeInterval)}>Create</Button>
+        <Button type="button" onClick={() => onSubmit(numOfQuestions, timeInterval)}>Create</Button>
       </Modal.Content>
     </Modal>
   );

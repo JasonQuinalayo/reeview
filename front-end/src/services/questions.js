@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { config } from '../util';
+import { config } from '../utils';
 
 const getQuestions = async () => {
   const user = await axios.get(`${config.backendUrl}/questions`);
