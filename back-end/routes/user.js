@@ -18,7 +18,7 @@ userRouter.post('/change-password', async (req, res) => {
   const user = await User.findById(req.session.userId);
   const authorized = await bcrypt.compare(password, user.passwordHash);
   if (!authorized) throw new Error('invalid password');
-  if (!newPassword || newPassword.length < 3) throw new Error('bad request');
+  if (!newPassword || newPassword.length < 3 || newPassword.length > 100) throw new Error('bad request');
   const newPasswordHash = await bcrypt.hash(newPassword, 10);
   await user.update({ passwordHash: newPasswordHash });
   res.send(user);
@@ -29,7 +29,7 @@ userRouter.post('/change-name', async (req, res) => {
   const user = await User.findById(req.session.userId);
   const authorized = await bcrypt.compare(password, user.passwordHash);
   if (!authorized) throw new Error('invalid password');
-  if (!newName || newName.length < 3 || newName.length > 24) throw new Error('bad request');
+  if (!newName || newName.length < 3 || newName.length > 32) throw new Error('bad request');
   await user.update({ name: newName });
   req.session.user.name = newName;
   res.send(user);

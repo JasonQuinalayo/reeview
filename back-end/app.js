@@ -1,6 +1,6 @@
 const cors = require('cors');
 const express = require('express');
-const session = require('express-session');
+const expressSession = require('express-session');
 const crypto = require('crypto');
 const { createServer } = require('http');
 require('express-async-errors');
@@ -18,16 +18,18 @@ const app = express();
 const httpServer = createServer(app);
 mongoose.connect(config.MONGODB_URI);
 
-const sess = {
+const sessionConfig = {
   secret: crypto.randomBytes(20).toString('hex'),
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 86400 * 1000, httpOnly: true },
 };
-if (config.NODE_ENV === 'production') sess.cookies.secure = true;
+if (config.NODE_ENV === 'production') sessionConfig.cookies.secure = true;
 
-app.use(session(sess));
-socketServer(httpServer);
+const session = expressSession(sessionConfig);
+
+app.use(session);
+socketServer(httpServer, session);
 if (config.NODE_ENV === 'development') app.use(cors({ origin: ['http://localhost:3001'], credentials: true }));
 app.use(express.json());
 app.use(express.static('build'));

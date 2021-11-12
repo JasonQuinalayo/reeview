@@ -1,19 +1,19 @@
 import React from 'react';
 import { Container, Grid, Radio } from 'semantic-ui-react';
 
-const ExamQuestionCard = ({ question, answerState, updateFunction }) => {
+const ExamQuestionItem = ({ question, answerState, updateFunction }) => {
   const handleChange = (e, { value }) => {
     if (!updateFunction) return;
     updateFunction(value);
   };
   return (
     <Container>
-      <Container className="pre-wrap-whitespace">
+      <div className="pre-wrap-whitespace">
         {question.question}
-      </Container>
+      </div>
       <Grid columns={2}>
         <Grid.Column>
-          <Container>
+          <div>
             <Radio
               label={`A. ${question.choices.a}`}
               name={`${question.id}-radioGroup`}
@@ -21,8 +21,8 @@ const ExamQuestionCard = ({ question, answerState, updateFunction }) => {
               checked={answerState === 'a'}
               onChange={handleChange}
             />
-          </Container>
-          <Container>
+          </div>
+          <div>
             <Radio
               name={`${question.id}-radioGroup`}
               value="b"
@@ -30,10 +30,10 @@ const ExamQuestionCard = ({ question, answerState, updateFunction }) => {
               onChange={handleChange}
               label={`B. ${question.choices.b}`}
             />
-          </Container>
+          </div>
         </Grid.Column>
         <Grid.Column>
-          <Container>
+          <div>
             <Radio
               name={`${question.id}-radioGroup`}
               value="c"
@@ -41,8 +41,8 @@ const ExamQuestionCard = ({ question, answerState, updateFunction }) => {
               onChange={handleChange}
               label={`C. ${question.choices.c}`}
             />
-          </Container>
-          <Container>
+          </div>
+          <div>
             <Radio
               name={`${question.id}-radioGroup`}
               value="d"
@@ -50,11 +50,11 @@ const ExamQuestionCard = ({ question, answerState, updateFunction }) => {
               onChange={handleChange}
               label={`D. ${question.choices.d}`}
             />
-          </Container>
+          </div>
         </Grid.Column>
       </Grid>
     </Container>
   );
 };
 
-export default ExamQuestionCard;
+export default ExamQuestionItem;

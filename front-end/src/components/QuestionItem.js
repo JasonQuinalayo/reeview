@@ -2,40 +2,40 @@ import React from 'react';
 import { Container, Grid, Label } from 'semantic-ui-react';
 
 const Card = ({ question }) => (
-  <Container key={question.id}>
-    <Container className="pre-wrap-whitespace">
+  <Container>
+    <div className="pre-wrap-whitespace">
       {question.question}
-    </Container>
+    </div>
     {question.maximumLengthChoice > 25
       ? (
         Object.keys(question.choices).map((choice) => (
-          <Container key={choice}>
+          <div key={choice}>
             {`${choice.toUpperCase()}. ${question.choices[choice]}`}
-          </Container>
+          </div>
         ))
       )
       : (
         <Grid columns={2}>
           <Grid.Column>
-            <Container>
+            <div>
               {`A. ${question.choices.a}`}
-            </Container>
-            <Container>
+            </div>
+            <div>
               {`B. ${question.choices.b}`}
-            </Container>
+            </div>
           </Grid.Column>
           <Grid.Column>
-            <Container>
+            <div>
               {`C. ${question.choices.c}`}
-            </Container>
-            <Container>
+            </div>
+            <div>
               {`D. ${question.choices.d}`}
-            </Container>
+            </div>
           </Grid.Column>
         </Grid>
       )}
     <Label>
-      {`answer: ${question.answer}`}
+      {`answer: ${question.answer.toUpperCase()}`}
     </Label>
     <Label>
       {question.category}

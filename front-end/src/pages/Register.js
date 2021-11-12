@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
 import {
-  Container, Form, Message, Segment, Header,
+  Container, Form, Message, Segment, Header, Divider, Button,
 } from 'semantic-ui-react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { registerService } from '../services';
 import { useStateValue, setUser } from '../state';
@@ -17,25 +17,42 @@ const Register = () => {
       username: '',
       name: '',
       password: '',
+      confirmPassword: '',
     },
     validate: (values) => {
       const errors = {};
       if (!values.username) {
         errors.username = 'Required';
-      } else if (values.username.length < 6 || values.username.length > 24) {
-        errors.username = 'Username must be at least 5 characters and at most 24 characters long';
+      } else if (values.username.length < 6) {
+        errors.username = 'Username must be at least 6 characters long';
+      } else if (values.username.length > 100) {
+        errors.username = 'Too long!';
       }
 
       if (!values.name) {
         errors.name = 'Required';
       } else if (values.name.length < 3) {
-        errors.password = 'Name must be at least 3 characters and at most 24 characters long';
+        errors.name = 'Name must be at least 3 characters';
+      } else if (values.name.length > 32) {
+        errors.name = 'Too long!';
       }
 
       if (!values.password) {
         errors.password = 'Required';
       } else if (values.password.length < 3) {
         errors.password = 'Password must be at least 3 characters';
+      } else if (values.password.length > 100) {
+        errors.password = 'Too long';
+      }
+
+      if (!values.confirmPassword) {
+        errors.confirmPassword = 'Required';
+      } else if (values.confirmPassword.length < 3) {
+        errors.confirmPassword = 'Password must be at least 3 characters';
+      } else if (values.confirmPassword.length > 100) {
+        errors.confirmPassword = 'Too long!';
+      } else if (values.confirmPassword !== values.password) {
+        errors.confirmPassword = 'Passwords dont match';
       }
       return errors;
     },
@@ -77,13 +94,27 @@ const Register = () => {
             label="Password"
             control={Form.Input}
             type="password"
+            placeholder="Please don't forget your password ty"
             {...formik.getFieldProps('password')}
             error={formik.touched.password && formik.errors.password && {
               content: formik.errors.password,
             }}
           />
-          <Form.Button type="submit">Register</Form.Button>
+          <Form.Field
+            label="Confirm Password"
+            control={Form.Input}
+            type="password"
+            {...formik.getFieldProps('confirmPassword')}
+            error={formik.touched.confirmPassword && formik.errors.confirmPassword && {
+              content: formik.errors.confirmPassword,
+            }}
+          />
+          <Form.Button type="submit" fluid>Register</Form.Button>
         </Form>
+        <Divider />
+        <Link to="/">
+          <Button fluid type="button">Login</Button>
+        </Link>
       </Segment>
     </Container>
   );

@@ -15,8 +15,23 @@ const questionSchema = new mongoose.Schema({
   },
   tags: [String],
   answer: { type: String, enum: ['a', 'b', 'c', 'd'], default: 'a' },
-  submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  approvedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  submitted: {
+    by: {
+      type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true,
+    },
+    on: {
+      type: mongoose.Schema.Types.Date, required: true,
+    },
+    required: true,
+  },
+  approved: {
+    by: {
+      type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true,
+    },
+    on: {
+      type: mongoose.Schema.Types.Date, required: true,
+    },
+  },
   year: {
     type: Number,
     validate: {

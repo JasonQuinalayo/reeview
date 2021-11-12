@@ -1,13 +1,12 @@
 const questionsRouter = require('express').Router();
 const Question = require('../mongo/models/question');
-const PendingQuestion = require('../mongo/models/pendingQuestion');
 
 questionsRouter.get('/', async (_, res) => {
   res.send(await Question.find({}).populate('submittedBy', 'name').populate('approvedBy', 'name'));
 });
 
 questionsRouter.post('/', async (req, res) => {
-  const newQuestion = new PendingQuestion({
+  const newQuestion = new Question({
     question: req.question,
     choices: req.choices,
     maximumLengthChoice: req.maximumLengthChoice,
@@ -24,12 +23,16 @@ questionsRouter.post('/', async (req, res) => {
 
 questionsRouter.post('/approve-question/:id', async (req, res) => {
   if (!req.session.user.isAdmin) throw new Error('unauthorized');
-  const pendingQuestion = await PendingQuestion.findById(req.params.id).lean();
+  const pendingQuestion = await Question.findById(req.params.id);
   if (!pendingQuestion) res.status(404).end();
   else {
-    const newQuestion = new Question({ ...pendingQuestion, approvedBy: req.session.user.userId });
-    await newQuestion.save();
-    res.send(newQuestion);
+    await pendingQuestion.update({
+      approved: {
+        by: req.session.user.id,
+        on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+      },
+    });
+    res.send(pendingQuestion);
   }
 });
 

@@ -19,14 +19,18 @@ const Login = () => {
       const errors = {};
       if (!values.username) {
         errors.username = 'Required';
-      } else if (values.username.length < 6 || values.username.length > 24) {
-        errors.username = 'Username must be at least 5 characters and at most 24 characters long';
+      } else if (values.username.length < 6) {
+        errors.username = 'Username must be at least 5 characters';
+      } else if (values.username.length > 100) {
+        errors.username = 'Too long!';
       }
 
       if (!values.password) {
         errors.password = 'Required';
       } else if (values.password.length < 3) {
         errors.password = 'Password must be at least 3 characters';
+      } else if (values.password.length > 100) {
+        errors.password = 'Too long!';
       }
       return errors;
     },
@@ -61,7 +65,7 @@ const Login = () => {
               content: formik.errors.password,
             }}
           />
-          <Form.Button type="submit">Login</Form.Button>
+          <Form.Button type="submit" fluid>Login</Form.Button>
         </Form>
       </Segment>
     </Container>

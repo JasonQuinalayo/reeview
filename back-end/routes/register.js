@@ -1,5 +1,5 @@
 const registerRouter = require('express').Router();
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const User = require('../mongo/models/user');
 
@@ -7,7 +7,7 @@ let links = [];
 
 registerRouter.post('/add-link', async (req, res) => {
   if (!req.session.user || !req.session.user.isAdmin) throw new Error('unauthorized');
-  const newLink = uuidv4();
+  const newLink = crypto.randomBytes(32).toString('base64url');
   links = links.concat(newLink);
   setTimeout(() => { links = links.filter((link) => link !== newLink); }, 1000 * 60 * 5);
   res.send(newLink);

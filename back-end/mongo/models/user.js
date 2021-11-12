@@ -3,10 +3,10 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   username: {
-    type: String, minlength: 6, maxlength: 24, required: true,
+    type: String, minlength: 6, maxlength: 100, required: true,
   },
   name: {
-    type: String, minLength: 3, maxLength: 24, required: true,
+    type: String, minLength: 3, maxLength: 32, required: true,
   },
   isAdmin: { type: Boolean, default: false },
   passwordHash: { type: String, required: true },

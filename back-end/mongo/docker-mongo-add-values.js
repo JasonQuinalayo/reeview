@@ -27,8 +27,14 @@ db.questions.insertMany(esas2020.map((q) => ({
   answer: q.answer.charAt(q.answer.length - 1).toLowerCase(),
   maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
   category: 'esas',
-  submitterBy: user.insertedId,
-  approvedBy: user.insertedId,
+  submitted: {
+    by: user.insertedId,
+    on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+  },
+  approved: {
+    by: user.insertedId,
+    on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+  },
   year: 2020
 })));
 
@@ -43,10 +49,17 @@ db.questions.insertMany(esas2019.map((q) => ({
   answer: q.answer.charAt(q.answer.length - 1).toLowerCase(),
   maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
   category: 'esas',
-  submitterBy: user.insertedId,
-  approvedBy: user.insertedId,
+  submitted: {
+    by: user.insertedId,
+    on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+  },
+  approved: {
+    by: user.insertedId,
+    on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+  },
   year: 2019
 })));
+
 db.questions.insertMany(esas2018.map((q) => ({
   question: q.questionnaire,
   choices: {
@@ -58,10 +71,17 @@ db.questions.insertMany(esas2018.map((q) => ({
   answer: q.answer.charAt(q.answer.length - 1).toLowerCase(),
   maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
   category: 'esas',
-  submitterBy: user.insertedId,
-  approvedBy: user.insertedId,
+  submitted: {
+    by: user.insertedId,
+    on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+  },
+  approved: {
+    by: user.insertedId,
+    on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+  },
   year: 2018
 })));
+
 db.questions.insertMany(esas2017.map((q) => ({
   question: q.questionnaire,
   choices: {
@@ -73,10 +93,17 @@ db.questions.insertMany(esas2017.map((q) => ({
   answer: q.answer.charAt(q.answer.length - 1).toLowerCase(),
   maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
   category: 'esas',
-  submitterBy: user.insertedId,
-  approvedBy: user.insertedId,
+  submitted: {
+    by: user.insertedId,
+    on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+  },
+  approved: {
+    by: user.insertedId,
+    on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+  },
   year: 2017
 })));
+
 db.questions.insertMany(ee2019.map((q) => ({
   question: q.questionnaire,
   choices: {
@@ -88,10 +115,17 @@ db.questions.insertMany(ee2019.map((q) => ({
   answer: q.answer.charAt(q.answer.length - 1).toLowerCase(),
   maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
   category: 'ee',
-  submitterBy: user.insertedId,
-  approvedBy: user.insertedId,
+  submitted: {
+    by: user.insertedId,
+    on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+  },
+  approved: {
+    by: user.insertedId,
+    on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+  },
   year: 2019
 })));
+
 db.questions.insertMany(ee2018.map((q) => ({
   question: q.questionnaire,
   choices: {
@@ -103,10 +137,17 @@ db.questions.insertMany(ee2018.map((q) => ({
   answer: q.answer.charAt(q.answer.length - 1).toLowerCase(),
   maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
   category: 'ee',
-  submitterBy: user.insertedId,
-  approvedBy: user.insertedId,
+  submitted: {
+    by: user.insertedId,
+    on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+  },
+  approved: {
+    by: user.insertedId,
+    on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+  },
   year: 2018
 })));
+
 db.questions.insertMany(ee2017.map((q) => ({
   question: q.questionnaire,
   choices: {
@@ -118,7 +159,13 @@ db.questions.insertMany(ee2017.map((q) => ({
   answer: q.answer.charAt(q.answer.length - 1).toLowerCase(),
   maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
   category: 'esas',
-  submitterBy: user.insertedId,
-  approvedBy: user.insertedId,
+  submitted: {
+    by: user.insertedId,
+    on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+  },
+  approved: {
+    by: user.insertedId,
+    on: (new Date()).toLocaleDateString('en', { timeZone: 'Asia/Singapore' }),
+  },
   year: 2017
 })));

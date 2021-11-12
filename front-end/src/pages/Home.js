@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Segment, Grid } from 'semantic-ui-react';
+import {
+  Container, Segment, List, Header,
+} from 'semantic-ui-react';
 import { adminService } from '../services';
 
 const Home = () => {
@@ -14,13 +16,8 @@ const Home = () => {
   return (
     <Container>
       <Segment>
-        <Grid columns={5}>
-          {admins.map((admin) => (
-            <Grid.Column key={admin.id}>
-              {admin.name}
-            </Grid.Column>
-          ))}
-        </Grid>
+        <Header>Current admins(char):</Header>
+        <List items={admins.map((admin) => admin.name)} />
       </Segment>
       <Segment size="massive">
         Announcements:

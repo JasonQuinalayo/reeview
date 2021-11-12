@@ -6,13 +6,14 @@ import { questionObjectToArray } from '../../utils';
 
 const ExamQuestionsOptions = ({ numOfQuestions, setNumOfQuestions }) => {
   const [{ questions }] = useStateValue();
+  const { approved: approvedQuestions } = questions;
 
   return (
     Object.keys(numOfQuestions).map((category) => (
       <Segment key={category}>
         <SliderComponent
           category={category}
-          max={questionObjectToArray(questions[category]).length}
+          max={questionObjectToArray(approvedQuestions[category]).length}
           categoryNumOfQuestions={numOfQuestions[category]}
           setNumOfQuestions={setNumOfQuestions}
         />

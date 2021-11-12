@@ -24,7 +24,7 @@ const PracticeExam = () => {
               {numOfQuestions.ee + numOfQuestions.esas + numOfQuestions.math}
             </Segment>
             <Divider hidden />
-            <Button type="button" onClick={() => { setStarted(true); }}>Start</Button>
+            <Button type="button" fluid onClick={() => { setStarted(true); }}>Start</Button>
           </>
         )
         : (
