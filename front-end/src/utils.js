@@ -1,15 +1,16 @@
 import { setQuestions } from './state';
-import { questionsService } from './services';
 
-const backendUrl = 'http://localhost:3000/api';
+export const config = {
+  backendUrl: 'http://localhost:3000/api',
+};
 
-const questionObjectToArray = (questions) => {
+export const questionObjectToArray = (questions) => {
   const results = [];
   Object.keys(questions).forEach((q) => results.push(questions[q]));
   return results;
 };
 
-const fetchQuestions = async (dispatch) => {
+export const fetchQuestions = async (dispatch, questionsService) => {
   const questions = await questionsService.getQuestions();
   const approvedCategorizedQuestions = { ee: {}, esas: {}, math: {} };
   const pendingQuestions = [];
@@ -22,5 +23,3 @@ const fetchQuestions = async (dispatch) => {
   });
   dispatch(setQuestions({ approved: approvedCategorizedQuestions, pending: pendingQuestions }));
 };
-
-export default { backendUrl, questionObjectToArray, fetchQuestions };

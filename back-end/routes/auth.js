@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
-const loginRouter = require('express').Router();
+const authRouter = require('express').Router();
 const User = require('../mongo/models/user');
 
-loginRouter.post('/', async (req, res) => {
+authRouter.post('/login', async (req, res) => {
   const { body } = req;
   const user = await User.findOne({ username: body.username }).lean();
   const passwordCorrect = user === null
@@ -20,4 +20,10 @@ loginRouter.post('/', async (req, res) => {
   res.send(req.session.user);
 });
 
-module.exports = loginRouter;
+authRouter.post('/logout', async (req, res) => {
+  req.session.destroy(() => {
+    res.status(204).end();
+  });
+});
+
+module.exports = authRouter;

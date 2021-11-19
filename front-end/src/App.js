@@ -16,7 +16,7 @@ import Register from './pages/Register';
 import Admin from './pages/Admin';
 import jmon from './jmon.jpg';
 import { useStateValue, setUser } from './state';
-import { userService } from './services';
+import { userService, questionsService } from './services';
 import { fetchQuestions } from './utils';
 
 if (process.env.NODE_ENV === 'development') axios.defaults.withCredentials = true;
@@ -27,7 +27,7 @@ const App = () => {
   useEffect(() => {
     if (!user) return;
     const f = async () => {
-      await fetchQuestions(dispatch);
+      await fetchQuestions(dispatch, questionsService);
     };
     f();
   }, [dispatch, user]);
@@ -36,15 +36,16 @@ const App = () => {
       try {
         const currentUser = await userService.getCurrentUser();
         dispatch(setUser(currentUser));
-        setLoading(false);
       // eslint-disable-next-line no-empty
-      } catch (e) {}
+      } catch (e) {} finally {
+        setLoading(false);
+      }
     };
     f();
   }, [dispatch]);
+  if (loading) { return <Loader />; }
   return (
     <div className="App">
-      <Loader active={loading} />
       {user
         ? (
           <Router>

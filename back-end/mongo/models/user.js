@@ -1,5 +1,19 @@
 /* eslint-disable no-param-reassign */
 const mongoose = require('mongoose');
+const answerSchema = require('../answerSchema');
+
+const examResultsSchema = mongoose.Schema({
+  totalQuestions: Number,
+  correctAnswers: Number,
+  mistakes: [{
+    question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
+    userAnswer: { type: answerSchema, required: true },
+  }],
+});
+
+const performanceSchema = new mongoose.Schema({
+  total: Number, answered: Number, percentage: Number,
+});
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -10,27 +24,13 @@ const userSchema = new mongoose.Schema({
   },
   isAdmin: { type: Boolean, default: false },
   passwordHash: { type: String, required: true },
-  lastGroupExamResults: {
-    totalQuestions: Number,
-    correctAnswers: Number,
-    mistakes: [{
-      question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
-      yourAnswer: { type: String, enum: ['a', 'b', 'c', 'd'], default: 'a' },
-    }],
-  },
-  lastPracticeExamResults: {
-    totalQuestions: Number,
-    correctAnswers: Number,
-    mistakes: [{
-      question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
-      yourAnswer: { type: String, enum: ['a', 'b', 'c', 'd'], default: 'a' },
-    }],
-  },
-  overAllPerformance: {
-    esas: { total: Number, answered: Number, percentage: Number },
-    ee: { total: Number, answered: Number, percentage: Number },
-    math: { total: Number, answered: Number, percentage: Number },
-  },
+  lastGroupExamResults: examResultsSchema,
+  lastPracticeExamResults: examResultsSchema,
+  overAllPerformance: new mongoose.Schema({
+    ee: performanceSchema,
+    esas: performanceSchema,
+    math: performanceSchema,
+  }),
 });
 
 userSchema.set('toJSON', {

@@ -6,6 +6,4 @@ const getCurrentUser = async () => {
   return user.data;
 };
 
-const logout = async () => axios.post(`${config.backendUrl}/user/logout`);
-
-export default { getCurrentUser, logout };
+export default { getCurrentUser };

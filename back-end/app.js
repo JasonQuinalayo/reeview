@@ -10,7 +10,7 @@ const questionsRouter = require('./routes/questions');
 const userRouter = require('./routes/user');
 const socketServer = require('./socketServer/socketServer');
 const middleware = require('./utils/middleware');
-const loginRouter = require('./routes/login');
+const authRouter = require('./routes/auth');
 const registerRouter = require('./routes/register');
 const adminRouter = require('./routes/admin');
 
@@ -34,7 +34,7 @@ if (config.NODE_ENV === 'development') app.use(cors({ origin: ['http://localhost
 app.use(express.json());
 app.use(express.static('build'));
 app.use('/api/register', registerRouter);
-app.use('/api/login', loginRouter);
+app.use('/api/auth', authRouter);
 app.use(middleware.authWall);
 app.use('/api/user', userRouter);
 app.use('/api/questions', questionsRouter);

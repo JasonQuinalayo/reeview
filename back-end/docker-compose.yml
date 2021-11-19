@@ -8,5 +8,4 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
       MONGO_INITDB_DATABASE: the_database
     volumes:
-      - ./mongo/1_docker-mongo-init.dev.js:/docker-entrypoint-initdb.d/1_mongo-init.js
-      - ${ADDITIONAL_SCRIPT:-/dev/null}:/docker-entrypoint-initdb.d/script.js
+      - ./mongo/docker/1_init.js:/docker-entrypoint-initdb.d/1_mongo-init.js

@@ -2,7 +2,7 @@ const questionsRouter = require('express').Router();
 const Question = require('../mongo/models/question');
 
 questionsRouter.get('/', async (_, res) => {
-  res.send(await Question.find({}).populate('submittedBy', 'name').populate('approvedBy', 'name'));
+  res.send(await Question.find({}).populate('submitted.by', 'name').populate('approved.by', 'name'));
 });
 
 questionsRouter.post('/', async (req, res) => {

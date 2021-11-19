@@ -15,12 +15,12 @@ registerRouter.post('/add-link', async (req, res) => {
 
 registerRouter.post('/:link', async (req, res) => {
   if (!links.includes(req.params.link)) throw new Error('unauthorized');
-  links = links.filter((link) => link !== req.params.link);
   const { name, username, password } = req.body;
   if (password.length < 3) throw new Error('password too short');
   const passwordHash = await bcrypt.hash(password, 10);
   const newUser = new User({ name, username, passwordHash });
   await newUser.save({ validateBeforeSave: true });
+  links = links.filter((link) => link !== req.params.link);
   req.session.user = {
     name: newUser.name,
     username: newUser.username,

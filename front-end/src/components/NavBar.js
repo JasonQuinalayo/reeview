@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Menu, Container } from 'semantic-ui-react';
-import { userService } from '../services';
+import { authService } from '../services';
 import { useStateValue, setUser } from '../state';
 
 const NavBar = () => {
@@ -12,11 +12,6 @@ const NavBar = () => {
         <Menu.Item id="navbar-first-item">
           <Link to="/home">
             REEview xd
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/profile">
-            Profile
           </Link>
         </Menu.Item>
         <Menu.Item>
@@ -45,7 +40,7 @@ const NavBar = () => {
           <Button
             type="button"
             onClick={async () => {
-              const response = await userService.logout();
+              const response = await authService.logout();
               if (response.status === 204) {
                 dispatch(setUser(null));
               } else {

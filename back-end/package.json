@@ -7,7 +7,7 @@
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development nodemon index.js",
     "build:ui": "rm -rf build && cd ../front-end && npm run build && cp -r build ../back-end",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=test jest --runInBand",
     "lint": "eslint ."
   },
   "eslintConfig": {
@@ -16,6 +16,10 @@
     ],
     "rules": {
       "no-underscore-dangle": "off"
+    },
+    "env": {
+      "node": true,
+      "jest": true
     }
   },
   "author": "Jason Quinalayo",
@@ -23,7 +27,10 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.25.2",
-    "nodemon": "^2.0.14"
+    "jest": "^27.3.1",
+    "nodemon": "^2.0.14",
+    "supertest": "^6.1.6",
+    "supertest-session": "^4.1.0"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

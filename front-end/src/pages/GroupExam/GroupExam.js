@@ -4,9 +4,10 @@ import {
 } from 'semantic-ui-react';
 import { io } from 'socket.io-client';
 import GroupExamLobby from './GroupExamLobby';
-import { useStateValue, setQuestions } from '../../state';
+import { useStateValue } from '../../state';
 import { questionsService } from '../../services';
 import ExamQuestionsOptions from '../../components/ExamQuestionsOptions/ExamQuestionsOptions';
+import { fetchQuestions } from '../../utils';
 
 const CreateLobbyModal = ({ onSubmit, modalOpen, onClose }) => {
   const [numOfQuestions, setNumOfQuestions] = useState({ ee: 0, esas: 0, math: 0 });
@@ -78,8 +79,12 @@ const GroupExam = () => {
   const [leave, setLeave] = useState(false);
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3000',
-      process.env.NODE_ENV === 'development' ? { withCredentials: true } : undefined);
+    let newSocket;
+    if (process.env.NODE_ENV === 'development') {
+      newSocket = io('http://localhost:3000', { withCredentials: true });
+    } else {
+      newSocket = io();
+    }
     newSocket.emit('get-lobby');
     newSocket.on('lobby', (lobby) => {
       if (!lobby) return;
@@ -90,12 +95,7 @@ const GroupExam = () => {
     });
     newSocket.on('join-lobby', async (id) => {
       setLobbyId(id);
-      const questions = await questionsService.getQuestions();
-      const categorizedQuestions = { ee: {}, esas: {}, math: {} };
-      questions.forEach((question) => {
-        categorizedQuestions[question.category][question.id] = question;
-      });
-      dispatch(setQuestions(categorizedQuestions));
+      await fetchQuestions(dispatch, questionsService);
     });
     newSocket.on('leave-lobby', async () => {
       setCreate(false);

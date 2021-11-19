@@ -4,7 +4,7 @@ import {
   Container, Form, Message, Segment,
 } from 'semantic-ui-react';
 import { useFormik } from 'formik';
-import { loginService } from '../services';
+import { authService } from '../services';
 import { useStateValue, setUser } from '../state';
 
 const Login = () => {
@@ -36,7 +36,7 @@ const Login = () => {
     },
     onSubmit: async (values) => {
       try {
-        const user = await loginService.login(values.username, values.password);
+        const user = await authService.login(values.username, values.password);
         dispatch(setUser(user));
       } catch (err) {
         setError(err.response.data.error);

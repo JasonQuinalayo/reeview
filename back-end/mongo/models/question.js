@@ -1,6 +1,15 @@
 /* eslint-disable no-param-reassign */
 const mongoose = require('mongoose');
 
+const userActionSchema = new mongoose.Schema({
+  by: {
+    type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true,
+  },
+  date: {
+    type: mongoose.Schema.Types.Date, required: true,
+  },
+});
+
 const questionSchema = new mongoose.Schema({
   question: { type: String, required: true },
   choices: {
@@ -14,28 +23,14 @@ const questionSchema = new mongoose.Schema({
     type: String, required: true, enum: ['esas', 'ee', 'math'], default: 'ee',
   },
   tags: [String],
-  answer: { type: String, enum: ['a', 'b', 'c', 'd'], default: 'a' },
   submitted: {
-    by: {
-      type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true,
-    },
-    on: {
-      type: mongoose.Schema.Types.Date, required: true,
-    },
-    required: true,
+    type: userActionSchema, required: true,
   },
-  approved: {
-    by: {
-      type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true,
-    },
-    on: {
-      type: mongoose.Schema.Types.Date, required: true,
-    },
-  },
+  approved: userActionSchema,
   year: {
     type: Number,
     validate: {
-      validator: (v) => v >= 1970 && v <= (new Date().getFullYear()),
+      validator: (v) => v >= 1970 && v <= (new Date()).getFullYear(),
       message: (v) => `${v} is not a valid year`,
     },
   },
