@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Button, Confirm, Container, Grid, Header, Input, Segment,
 } from 'semantic-ui-react';
-import { adminService, registerService } from '../services';
+import { userService, registerService } from '../services';
 
 const Admin = () => {
   const [registrationLink, setRegistrationLink] = useState('');
@@ -11,7 +11,7 @@ const Admin = () => {
   useEffect(() => {
     const f = async () => {
       try {
-        const newUsers = await adminService.getAllUsers();
+        const newUsers = await userService.getAllUsers();
         setUsers(newUsers);
       } catch (e) {
         setError(e.response.data.error);
@@ -35,9 +35,6 @@ const Admin = () => {
         onCancel={() => setError('')}
         onConfirm={() => setError('')}
       />
-      <Segment size="huge">
-        Admin Announcements:
-      </Segment>
       <Segment>
         <Grid columns={2}>
           <Grid.Column width={4}>
@@ -65,9 +62,10 @@ const Admin = () => {
         <Grid columns={5}>
           {users.map((user) => (
             <Grid.Column key={user.id}>
-              {user.name}
-              {user.isAdmin ? 'sadflkjk'
-                : <Button>Promote</Button>}
+              <strong>{user.name}</strong>
+              {' -- '}
+              {user.isAdmin ? 'Admin'
+                : <Button size="tiny">Promote</Button>}
             </Grid.Column>
           ))}
         </Grid>

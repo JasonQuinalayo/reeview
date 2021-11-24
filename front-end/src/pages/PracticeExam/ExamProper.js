@@ -35,7 +35,7 @@ const Results = ({ examItems }) => {
   );
 };
 
-const ExamProper = ({ numOfQuestions }) => {
+const ExamProper = ({ numOfQuestions, takeAnother }) => {
   const [{ questions }] = useStateValue();
   const { approved: approvedQuestions } = questions;
   const [submitted, setSubmitted] = useState(false);
@@ -108,7 +108,12 @@ const ExamProper = ({ numOfQuestions }) => {
             </Grid>
           </div>
         )
-        : <Results examItems={examItems} />}
+        : (
+          <>
+            <Results examItems={examItems} />
+            <Button type="button" onClick={takeAnother}>Take Another</Button>
+          </>
+        )}
     </Container>
   );
 };

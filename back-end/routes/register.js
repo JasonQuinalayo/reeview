@@ -1,33 +1,74 @@
 const registerRouter = require('express').Router();
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
+const {
+  checkSchema, validationResult,
+} = require('express-validator');
 const User = require('../mongo/models/user');
+const { AuthorizationError, ApiValidationError, RequestError } = require('../utils/errors');
 
 let links = [];
 
 registerRouter.post('/add-link', async (req, res) => {
-  if (!req.session.user || !req.session.user.isAdmin) throw new Error('unauthorized');
+  if (!req.session.user || !req.session.user.isAdmin) throw new AuthorizationError('Adding registration links requires admin privileges');
   const newLink = crypto.randomBytes(32).toString('base64url');
   links = links.concat(newLink);
   setTimeout(() => { links = links.filter((link) => link !== newLink); }, 1000 * 60 * 5);
-  res.send(newLink);
+  res.status(201).send(newLink);
 });
 
-registerRouter.post('/:link', async (req, res) => {
-  if (!links.includes(req.params.link)) throw new Error('unauthorized');
-  const { name, username, password } = req.body;
-  if (password.length < 3) throw new Error('password too short');
-  const passwordHash = await bcrypt.hash(password, 10);
-  const newUser = new User({ name, username, passwordHash });
-  await newUser.save({ validateBeforeSave: true });
-  links = links.filter((link) => link !== req.params.link);
-  req.session.user = {
-    name: newUser.name,
-    username: newUser.username,
-    id: newUser._id.toString(),
-    isAdmin: newUser.isAdmin,
-  };
-  res.send(newUser);
-});
+registerRouter.post('/:link',
+  checkSchema({
+    username: {
+      in: ['body'],
+      isAlphanumeric: {
+        errorMessage: 'Username must be alphanumeric',
+      },
+      isLength: {
+        options: { min: 6, max: 40 },
+        errorMessage: 'Username must be between 6 and 40 characters long',
+      },
+    },
+    name: {
+      in: ['body'],
+      isAlphanumeric: {
+        errorMessage: 'Name must be alphanumeric',
+      },
+      isLength: {
+        options: { min: 3, max: 40 },
+        errorMessage: 'Name must be between 3 and 40 characters long',
+      },
+    },
+    password: {
+      in: ['body'],
+      isAscii: {
+        errorMessage: 'Password must consist of ASCII characters only',
+      },
+      isLength: {
+        options: { min: 3, max: 40 },
+        errorMessage: 'Password must be between 3 and 100 characters long',
+      },
+    },
+  }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) throw new ApiValidationError(errors.array(), 'Invalid request body properties');
+    if (!links.includes(req.params.link)) throw new AuthorizationError('Invalid registration link');
+    const { name, username, password } = req.body;
+    const user = await User.findOne({ username });
+    if (user) throw new RequestError('Username already taken');
+    if (req.session.user) throw new RequestError('Cannot register new account while logged in');
+    const passwordHash = await bcrypt.hash(password, 10);
+    const newUser = new User({ name, username, passwordHash });
+    await newUser.save({ validateBeforeSave: true });
+    links = links.filter((link) => link !== req.params.link);
+    req.session.user = {
+      name: newUser.name,
+      username: newUser.username,
+      id: newUser._id.toString(),
+      isAdmin: false,
+    };
+    res.status(201).send(newUser);
+  });
 
 module.exports = registerRouter;

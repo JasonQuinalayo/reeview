@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const authRouter = require('express').Router();
 const User = require('../mongo/models/user');
+const { AuthorizationError } = require('../utils/errors');
 
 authRouter.post('/login', async (req, res) => {
   const { body } = req;
@@ -9,7 +10,7 @@ authRouter.post('/login', async (req, res) => {
     ? false
     : await bcrypt.compare(body.password, user.passwordHash);
 
-  if (!(user && passwordCorrect)) throw new Error('invalid username or password');
+  if (!(user && passwordCorrect)) throw new AuthorizationError('Invalid username or password');
 
   req.session.user = {
     username: user.username,

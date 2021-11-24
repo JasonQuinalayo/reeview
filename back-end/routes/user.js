@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
+const { checkSchema, validationResult } = require('express-validator');
 const userRouter = require('express').Router();
 const User = require('../mongo/models/user');
+const { AuthorizationError, RequestError, ApiValidationError } = require('../utils/errors');
 
 userRouter.get('/', async (req, res) => {
   const user = await User.findById(req.session.user.id);
@@ -13,26 +15,63 @@ userRouter.get('/', async (req, res) => {
   res.send(user);
 });
 
-userRouter.post('/change-password', async (req, res) => {
-  const { password, newPassword } = req.body;
-  const user = await User.findById(req.session.user.id);
-  const authorized = await bcrypt.compare(password, user.passwordHash);
-  if (!authorized) throw new Error('invalid password');
-  if (!newPassword || newPassword.length < 3 || newPassword.length > 100) throw new Error('bad request');
-  const newPasswordHash = await bcrypt.hash(newPassword, 10);
-  await user.update({ passwordHash: newPasswordHash });
-  res.send(user);
+userRouter.post('/change-password',
+  checkSchema({
+    password: {
+      in: ['body'],
+      isAscii: {
+        errorMessage: 'Password must consist of ASCII characters only',
+      },
+      isLength: {
+        options: { min: 3, max: 40 },
+        errorMessage: 'Password must be between 3 and 40 characters long',
+      },
+    },
+    newPassword: {
+      in: ['body'],
+      isAscii: {
+        errorMessage: 'New Password must consist of ASCII characters only',
+      },
+      isLength: {
+        options: { min: 3, max: 40 },
+        errorMessage: 'New Password must be between 3 and 40 characters long',
+      },
+    },
+  }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) throw new ApiValidationError(errors.array(), 'Invalid body properties');
+    const { password, newPassword } = req.body;
+    const user = await User.findById(req.session.user.id);
+    if (!user) throw new RequestError('User not found');
+    const authorized = await bcrypt.compare(password, user.passwordHash);
+    if (!authorized) throw new AuthorizationError('Invalid password');
+    const newPasswordHash = await bcrypt.hash(newPassword, 10);
+    await user.updateOne({ passwordHash: newPasswordHash });
+    res.send(user);
+  });
+
+userRouter.get('/admins', async (req, res) => {
+  const admins = await User.find({ isAdmin: true });
+  res.send(admins.map((admin) => ({ name: admin.name, id: admin._id.toString() })));
 });
 
-userRouter.post('/change-name', async (req, res) => {
-  const { password, newName } = req.body;
-  const user = await User.findById(req.session.userId);
-  const authorized = await bcrypt.compare(password, user.passwordHash);
-  if (!authorized) throw new Error('invalid password');
-  if (!newName || newName.length < 3 || newName.length > 32) throw new Error('bad request');
-  await user.updateOne({ name: newName });
-  req.session.user.name = newName;
-  res.send(user);
+userRouter.post('/promote/:id', async (req, res) => {
+  if (!req.session.user.isAdmin) throw new AuthorizationError('Promoting users requires admin privileges');
+  const user = await User.findById(req.params.id);
+  if (!user) res.status(404).end();
+  await user.update({ isAdmin: true });
+  res.status(201).end();
+});
+
+userRouter.get('/all', async (req, res) => {
+  if (!req.session.user.isAdmin) throw new AuthorizationError('Getting all users requires admin privileges');
+  const users = await User.find({});
+  res.send(users.map((user) => ({
+    name: user.name,
+    id: user._id.toString(),
+    isAdmin: user.isAdmin,
+  })));
 });
 
 module.exports = userRouter;

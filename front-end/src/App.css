@@ -41,6 +41,10 @@
   padding-bottom: 0;
 }
 
-.ui.container.popup-content {
-  width: 600px;
+.ui.top.left.popup.transition.visible {
+  min-width: 600px;
+}
+
+.ui.bottom.left.popup.transition.visible {
+  min-width: 600px;
 }

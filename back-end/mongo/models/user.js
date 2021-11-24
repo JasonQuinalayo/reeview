@@ -1,13 +1,14 @@
 /* eslint-disable no-param-reassign */
 const mongoose = require('mongoose');
-const answerSchema = require('../answerSchema');
 
 const examResultsSchema = mongoose.Schema({
   totalQuestions: Number,
   correctAnswers: Number,
   mistakes: [{
     question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
-    userAnswer: { type: answerSchema, required: true },
+    userAnswer: {
+      type: String, enum: ['a', 'b', 'c', 'd'], default: 'a', required: true,
+    },
   }],
 });
 
@@ -17,10 +18,10 @@ const performanceSchema = new mongoose.Schema({
 
 const userSchema = new mongoose.Schema({
   username: {
-    type: String, minlength: 6, maxlength: 100, required: true,
+    type: String, minlength: 6, maxlength: 40, required: true, match: /^[A-Za-z0-9]+$/,
   },
   name: {
-    type: String, minLength: 3, maxLength: 32, required: true,
+    type: String, minLength: 3, maxLength: 40, required: true, match: /^[A-Za-z0-9]+$/,
   },
   isAdmin: { type: Boolean, default: false },
   passwordHash: { type: String, required: true },

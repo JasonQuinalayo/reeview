@@ -6,6 +6,7 @@ import {
 import { useFormik } from 'formik';
 import { authService } from '../services';
 import { useStateValue, setUser } from '../state';
+import { isAscii, isAlphaNumeric } from '../utils';
 
 const Login = () => {
   const [, dispatch] = useStateValue();
@@ -20,17 +21,21 @@ const Login = () => {
       if (!values.username) {
         errors.username = 'Required';
       } else if (values.username.length < 6) {
-        errors.username = 'Username must be at least 5 characters';
-      } else if (values.username.length > 100) {
+        errors.username = 'Username must be at least 6 characters';
+      } else if (values.username.length > 40) {
         errors.username = 'Too long!';
+      } else if (!isAlphaNumeric(values.username)) {
+        errors.username = 'Invalid Characters';
       }
 
       if (!values.password) {
         errors.password = 'Required';
       } else if (values.password.length < 3) {
         errors.password = 'Password must be at least 3 characters';
-      } else if (values.password.length > 100) {
+      } else if (values.password.length > 40) {
         errors.password = 'Too long!';
+      } else if (!isAscii(values.password)) {
+        errors.password = 'Invalid Characters';
       }
       return errors;
     },

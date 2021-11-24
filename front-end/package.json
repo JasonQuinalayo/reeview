@@ -46,7 +46,8 @@
       "react/prop-types": [
         0
       ],
-      "no-alert":"off"
+      "no-alert":"off",
+      "no-plusplus":"off"
     }
   },
   "browserslist": {

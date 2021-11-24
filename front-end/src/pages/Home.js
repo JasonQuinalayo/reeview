@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Container, Segment, List, Header,
+  Container, Segment, List, Header, Image,
 } from 'semantic-ui-react';
-import { adminService } from '../services';
+import { userService } from '../services';
+import photo from '../images/image1.jpeg';
 
 const Home = () => {
   const [admins, setAdmins] = useState([]);
   useEffect(() => {
     const f = async () => {
-      const newAdmins = await adminService.getAdmins();
+      const newAdmins = await userService.getAdmins();
       setAdmins(newAdmins);
     };
     f();
@@ -19,9 +20,7 @@ const Home = () => {
         <Header>Current admins(char):</Header>
         <List items={admins.map((admin) => admin.name)} />
       </Segment>
-      <Segment size="massive">
-        Announcements:
-      </Segment>
+      <Image src={photo} size="big" centered />
     </Container>
   );
 };

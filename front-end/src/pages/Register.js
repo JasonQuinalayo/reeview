@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { registerService } from '../services';
 import { useStateValue, setUser } from '../state';
+import { isAlphaNumeric, isAscii } from '../utils';
 
 const Register = () => {
   const [, dispatch] = useStateValue();
@@ -25,32 +26,34 @@ const Register = () => {
         errors.username = 'Required';
       } else if (values.username.length < 6) {
         errors.username = 'Username must be at least 6 characters long';
-      } else if (values.username.length > 100) {
+      } else if (values.username.length > 40) {
         errors.username = 'Too long!';
+      } else if (!isAlphaNumeric(values.username)) {
+        errors.username = 'Invalid characters';
       }
 
       if (!values.name) {
         errors.name = 'Required';
       } else if (values.name.length < 3) {
         errors.name = 'Name must be at least 3 characters';
-      } else if (values.name.length > 32) {
+      } else if (values.name.length > 40) {
         errors.name = 'Too long!';
+      } else if (!isAlphaNumeric(values.name)) {
+        errors.username = 'Invalid characters';
       }
 
       if (!values.password) {
         errors.password = 'Required';
       } else if (values.password.length < 3) {
         errors.password = 'Password must be at least 3 characters';
-      } else if (values.password.length > 100) {
+      } else if (values.password.length > 40) {
         errors.password = 'Too long';
+      } else if (!isAscii(values.password)) {
+        errors.password = 'Invalid Characters';
       }
 
       if (!values.confirmPassword) {
         errors.confirmPassword = 'Required';
-      } else if (values.confirmPassword.length < 3) {
-        errors.confirmPassword = 'Password must be at least 3 characters';
-      } else if (values.confirmPassword.length > 100) {
-        errors.confirmPassword = 'Too long!';
       } else if (values.confirmPassword !== values.password) {
         errors.confirmPassword = 'Passwords dont match';
       }

@@ -12,7 +12,6 @@ const socketServer = require('./socketServer/socketServer');
 const middleware = require('./utils/middleware');
 const authRouter = require('./routes/auth');
 const registerRouter = require('./routes/register');
-const adminRouter = require('./routes/admin');
 
 const app = express();
 const httpServer = createServer(app);
@@ -38,7 +37,6 @@ app.use('/api/auth', authRouter);
 app.use(middleware.authWall);
 app.use('/api/user', userRouter);
 app.use('/api/questions', questionsRouter);
-app.use('/api/admin', adminRouter);
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 

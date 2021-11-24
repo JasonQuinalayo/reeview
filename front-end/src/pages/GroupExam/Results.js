@@ -10,10 +10,11 @@ const ResultItem = ({ singleObjectQuestions, result, examQuestions }) => {
   return (
     <Grid.Column>
       <Segment>
-        <Button type="button" size="mini" onClick={() => setShowItems((p) => !p)}>{showItems ? 'Hide' : 'Show'}</Button>
-        {result.name}
+        <strong>{result.name}</strong>
         {' '}
         {result.score}
+        {' '}
+        <Button type="button" size="mini" onClick={() => setShowItems((p) => !p)}>{showItems ? 'Hide' : 'Show'}</Button>
         <Transition visible={showItems}>
           <div>
             {result.answers.map((answer, index) => {
@@ -21,7 +22,6 @@ const ResultItem = ({ singleObjectQuestions, result, examQuestions }) => {
               const correct = question.answer === answer;
               return (
                 <Popup
-                  on="click"
                   key={question.id}
                   trigger={<Icon name={correct ? 'check' : 'x'} color={correct ? 'green' : 'red'} />}
                 >
@@ -50,7 +50,11 @@ const Results = ({ results, examQuestions }) => {
   return (
     <Container>
       <Segment>
-        <Header>Results</Header>
+        <Header>
+          Results. Total Number of Questions:
+          {' '}
+          {examQuestions.length}
+        </Header>
         <Grid columns={3}>
           {Object.keys(results).map((id) => (
             <ResultItem

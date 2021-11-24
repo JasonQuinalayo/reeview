@@ -14,7 +14,7 @@ import GroupExam from './pages/GroupExam';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Admin from './pages/Admin';
-import jmon from './jmon.jpg';
+import jmon from './images/jmon.jpg';
 import { useStateValue, setUser } from './state';
 import { userService, questionsService } from './services';
 import { fetchQuestions } from './utils';

@@ -8,7 +8,7 @@ import { questionObjectToArray } from '../../utils';
 import QuestionItem from '../../components/QuestionItem';
 
 const QuestionsTab = ({ questions }) => (
-  <Container>
+  <Container className="padded-top">
     <Grid columns={2}>
       <Grid.Column>
         {questions.slice(0, Math.floor(questions.length / 2))

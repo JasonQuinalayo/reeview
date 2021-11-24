@@ -18,6 +18,9 @@ const questionSchema = new mongoose.Schema({
     c: { type: String, required: true },
     d: { type: String, required: true },
   },
+  answer: {
+    type: String, enum: ['a', 'b', 'c', 'd'], default: 'a', required: true,
+  },
   maximumLengthChoice: { type: Number, required: true },
   category: {
     type: String, required: true, enum: ['esas', 'ee', 'math'], default: 'ee',
