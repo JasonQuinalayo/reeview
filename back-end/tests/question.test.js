@@ -3,14 +3,15 @@ const mongoose = require('mongoose');
 const app = require('../app');
 
 const api = supertestSession(app);
-
 const {
   loginAsAdmin, loginAsNonAdmin1, loginAsNonAdmin2, cleanUp, logout,
   initializeUsers, initializeQuestions, initialQuestions,
 } = require('./test_helper')(api);
 
+const baseUrl = '/api/questions';
+
 test('cannot get questions if not logged in', async () => {
-  api.get('/api/questions').expect(401, { error: 'unauthorized' });
+  await api.get(baseUrl).expect(401, { error: 'You need to be logged in' });
 });
 
 const questionSample = {
@@ -38,50 +39,50 @@ describe('logged in as non-admin, ', () => {
   });
 
   test('can get questions', async () => {
-    const { body: questions } = await api.get('/api/questions').expect(200);
+    const { body: questions } = await api.get(baseUrl).expect(200);
     expect(questions.length).toBe(initialQuestions.length);
   });
 
   test('can submit a question', async () => {
-    await api.post('/api/questions').send(questionSample).expect(201);
+    await api.post(baseUrl).send(questionSample).expect(201);
   });
 
   test('submitted question is initially unapproved', async () => {
-    const { body: question } = await api.post('/api/questions').send(questionSample).expect(201);
-    const { body: questions } = await api.get('/api/questions');
+    const { body: question } = await api.post(baseUrl).send(questionSample).expect(201);
+    const { body: questions } = await api.get(baseUrl);
     expect(questions.find((q) => q.id === question.id)).not.toHaveProperty('approved');
   });
 
   test('cannot approve a question', async () => {
-    const { body: question } = await api.post('/api/questions')
+    const { body: question } = await api.post(baseUrl)
       .send(questionSample).expect(201);
-    await api.post(`/api/questions/approve/${question.id}`)
+    await api.post(`${baseUrl}/approve/${question.id}`)
       .expect(401, { error: 'Approving questions requires admin privileges' });
   });
 
   test('can delete own unapproved question', async () => {
-    const { body: question } = await api.post('/api/questions')
+    const { body: question } = await api.post(baseUrl)
       .send(questionSample).expect(201);
-    await api.delete(`/api/questions/${question.id}`).expect(204);
+    await api.delete(`${baseUrl}/${question.id}`).expect(204);
   });
 
   test('cannot delete approved questions', async () => {
-    const { body: questions } = await api.get('/api/questions');
-    await api.delete(`/api/questions/${questions[0].id}`)
+    const { body: questions } = await api.get(baseUrl);
+    await api.delete(`${baseUrl}/${questions[0].id}`)
       .expect(401, { error: 'Deleting approved questions require admin privileges' });
   });
 
   test('cannot delete pending questions submitted by others', async () => {
-    const { body: question } = await api.post('/api/questions')
+    const { body: question } = await api.post(baseUrl)
       .send(questionSample).expect(201);
     await logout();
     await loginAsNonAdmin2();
-    await api.delete(`/api/questions/${question.id}`)
+    await api.delete(`${baseUrl}/${question.id}`)
       .expect(401, { error: 'Deleting pending questions require the deleter to be the submitter or an admin' });
   });
 
   test('invalid question category is rejected', async () => {
-    await api.post('/api/questions')
+    await api.post(baseUrl)
       .send({ ...questionSample, category: 'hehe' })
       .expect(400, {
         message: 'Invalid request body properties',
@@ -95,7 +96,7 @@ describe('logged in as non-admin, ', () => {
   });
 
   test('invalid question answer is rejected', async () => {
-    await api.post('/api/questions')
+    await api.post(baseUrl)
       .send({ ...questionSample, answer: 'hehe' })
       .expect(400, {
         message: 'Invalid request body properties',
@@ -109,7 +110,7 @@ describe('logged in as non-admin, ', () => {
   });
 
   test('question with invalid choices is rejected', async () => {
-    await api.post('/api/questions')
+    await api.post(baseUrl)
       .send({ ...questionSample, choices: 'hehe' })
       .expect(400, {
         message: 'Invalid request body properties',
@@ -120,7 +121,7 @@ describe('logged in as non-admin, ', () => {
           },
         ],
       });
-    await api.post('/api/questions')
+    await api.post(baseUrl)
       .send({ ...questionSample, choices: { a: 'b', g: 'h' } })
       .expect(400, {
         message: 'Invalid request body properties',
@@ -137,9 +138,9 @@ describe('logged in as non-admin, ', () => {
 test('An admin can approve pending questions', async () => {
   await initializeUsers();
   await loginAsAdmin();
-  const { body: question } = await api.post('/api/questions')
+  const { body: question } = await api.post(baseUrl)
     .send(questionSample).expect(201);
-  const { body: approvedQuestion } = await api.post(`/api/questions/approve/${question.id}`).expect(201);
+  const { body: approvedQuestion } = await api.post(`${baseUrl}/approve/${question.id}`).expect(201);
   expect(approvedQuestion).toMatchObject(questionSample);
   await logout();
   await cleanUp();

@@ -21,7 +21,6 @@ const questionSchema = new mongoose.Schema({
   answer: {
     type: String, enum: ['a', 'b', 'c', 'd'], default: 'a', required: true,
   },
-  maximumLengthChoice: { type: Number, required: true },
   category: {
     type: String, required: true, enum: ['esas', 'ee', 'math'], default: 'ee',
   },
@@ -38,6 +37,10 @@ const questionSchema = new mongoose.Schema({
     },
   },
   imgSrc: { type: String },
+  suggestedUpdates: [
+    { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
+  ],
+  updateTo: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
 });
 
 questionSchema.set('toJSON', {

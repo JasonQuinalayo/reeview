@@ -43,24 +43,22 @@ const initializeUsers = async () => {
   await nonAdmin2.save();
 };
 
-const loginAsNonAdmin1 = async (api) => {
-  const login = await api.post('/api/auth/login')
-    .send({ username: nonAdminCredentials1.username, password: nonAdminCredentials1.password });
-  return login.body;
-};
+const login = (api, username, password) => api.post('/api/auth/login')
+  .send({ username, password });
 
-const loginAsNonAdmin2 = async (api) => {
-  const login = await api.post('/api/auth/login')
-    .send({ username: nonAdminCredentials2.username, password: nonAdminCredentials2.password });
-  return login.body;
-};
+const loginAsNonAdmin1 = (api) => login(
+  api, nonAdminCredentials1.username, nonAdminCredentials1.password,
+);
 
-const loginAsAdmin = async (api) => {
-  const login = await api.post('/api/auth/login').send({ username: adminCredentials.username, password: adminCredentials.password });
-  return login.body;
-};
+const loginAsNonAdmin2 = (api) => login(
+  api, nonAdminCredentials2.username, nonAdminCredentials2.password,
+);
 
-const logout = async (api) => { await api.post('/api/auth/logout'); };
+const loginAsAdmin = (api) => login(
+  api, adminCredentials.username, adminCredentials.password,
+);
+
+const logout = (api) => api.post('/api/auth/logout');
 
 const cleanUp = async () => {
   await User.deleteMany({});
@@ -134,7 +132,7 @@ const initialQuestions = [
 ];
 
 const initializeQuestions = async (api) => {
-  const user = await loginAsAdmin(api);
+  const { body: user } = await loginAsAdmin(api);
   await initialQuestions.forEach(async (q) => {
     const question = new Question({
       ...q,
@@ -151,18 +149,17 @@ const initializeQuestions = async (api) => {
   });
 };
 
-const funcWrapper = (fn, ...args) => async () => fn(...args);
-
 module.exports = (api) => ({
   initializeUsers,
   nonAdminCredentials1,
   nonAdminCredentials2,
-  loginAsNonAdmin1: funcWrapper(loginAsNonAdmin1, api),
-  loginAsNonAdmin2: funcWrapper(loginAsNonAdmin2, api),
+  login: (username, password) => login(api, username, password),
+  loginAsNonAdmin1: () => loginAsNonAdmin1(api),
+  loginAsNonAdmin2: () => loginAsNonAdmin2(api),
   adminCredentials,
-  loginAsAdmin: funcWrapper(loginAsAdmin, api),
-  logout: funcWrapper(logout, api),
+  loginAsAdmin: () => loginAsAdmin(api),
+  logout: () => logout(api),
   cleanUp,
   initialQuestions,
-  initializeQuestions: funcWrapper(initializeQuestions, api),
+  initializeQuestions: () => initializeQuestions(api),
 });

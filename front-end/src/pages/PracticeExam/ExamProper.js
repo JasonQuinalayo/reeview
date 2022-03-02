@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import sampleSize from 'lodash.samplesize';
 import shuffle from 'lodash.shuffle';
 import {
-  Button, Container, Grid, Segment, Icon,
+  Button, Container, Grid, Segment, Icon, Divider,
 } from 'semantic-ui-react';
 import { useStateValue } from '../../state';
 import ExamQuestionItem from '../../components/ExamQuestionItem';
@@ -35,7 +35,7 @@ const Results = ({ examItems }) => {
   );
 };
 
-const ExamProper = ({ numOfQuestions, takeAnother }) => {
+const ExamProper = ({ numOfQuestions, finish }) => {
   const [{ questions }] = useStateValue();
   const { approved: approvedQuestions } = questions;
   const [submitted, setSubmitted] = useState(false);
@@ -72,6 +72,13 @@ const ExamProper = ({ numOfQuestions, takeAnother }) => {
     setCurrentPageItems(examItems
       .slice((currentPageNumber - 1) * 10, (currentPageNumber) * 10));
     setCurrentPageNumber((p) => p - 1);
+  };
+
+  const retry = () => {
+    setSubmitted(false);
+    setExamItems((items) => items.map((item) => ({ ...item, answer: { ...item.answer, user: '' } })));
+    setCurrentPageNumber(0);
+    setCurrentPageItems(examItems.slice(0, 10));
   };
 
   return (
@@ -111,7 +118,9 @@ const ExamProper = ({ numOfQuestions, takeAnother }) => {
         : (
           <>
             <Results examItems={examItems} />
-            <Button type="button" onClick={takeAnother}>Take Another</Button>
+            <Divider />
+            <Button type="button" onClick={finish}>Done</Button>
+            <Button type="button" onClick={retry}>Retry</Button>
           </>
         )}
     </Container>

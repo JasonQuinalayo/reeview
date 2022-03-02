@@ -1,6 +1,5 @@
 const questionsRouter = require('express').Router();
 const { checkSchema, validationResult } = require('express-validator');
-const { isURL } = require('validator');
 const Question = require('../mongo/models/question');
 const { ApiValidationError, AuthorizationError } = require('../utils/errors');
 
@@ -80,7 +79,8 @@ questionsRouter.post('/',
       in: ['body'],
       custom: {
         options: (value) => {
-          const valid = value === undefined || value === null || (isURL(value));
+          const valid = value === undefined || value === null || ((typeof value === 'string'
+            || value instanceof String) && value.length < 100);
           if (!valid) {
             throw new Error('Invalid image source');
           }
@@ -98,9 +98,6 @@ questionsRouter.post('/',
     const newQuestion = new Question({
       question,
       choices,
-      maximumLengthChoice: Math.max(
-        choices.a.length, choices.b.length, choices.c.length, choices.d.length,
-      ),
       category,
       tags,
       answer,

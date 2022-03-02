@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 import NavBar from './components/NavBar';
+import QuestionItem from './components/QuestionItem';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Questions from './pages/Questions';
@@ -58,6 +59,9 @@ const App = () => {
                 </Route>
                 <Route exact path="/questions">
                   <Questions />
+                </Route>
+                <Route exact path="/question/:id">
+                  <QuestionItem />
                 </Route>
                 <Route exact path="/practice-exam">
                   <PracticeExam />

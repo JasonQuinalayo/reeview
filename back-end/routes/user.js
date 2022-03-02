@@ -60,8 +60,8 @@ userRouter.post('/promote/:id', async (req, res) => {
   if (!req.session.user.isAdmin) throw new AuthorizationError('Promoting users requires admin privileges');
   const user = await User.findById(req.params.id);
   if (!user) res.status(404).end();
-  await user.update({ isAdmin: true });
-  res.status(201).end();
+  await user.updateOne({ isAdmin: true });
+  res.status(201).send({ name: user.name, id: user._id.toString(), isAdmin: true });
 });
 
 userRouter.get('/all', async (req, res) => {

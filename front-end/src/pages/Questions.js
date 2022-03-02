@@ -1,32 +1,19 @@
 import React, { useMemo } from 'react';
 import {
-  Button,
-  Container, Grid, Segment, Tab,
+  Button, Container, Segment, Tab,
 } from 'semantic-ui-react';
-import { useStateValue } from '../../state';
-import { questionObjectToArray } from '../../utils';
-import QuestionItem from '../../components/QuestionItem';
+import { useStateValue } from '../state';
+import { questionObjectToArray } from '../utils';
+import QuestionItem from '../components/QuestionItem';
 
 const QuestionsTab = ({ questions }) => (
   <Container className="padded-top">
-    <Grid columns={2}>
-      <Grid.Column>
-        {questions.slice(0, Math.floor(questions.length / 2))
-          .map((question) => (
-            <Segment key={question.id}>
-              <QuestionItem question={question} />
-            </Segment>
-          ))}
-      </Grid.Column>
-      <Grid.Column>
-        {questions.slice(Math.floor(questions.length / 2))
-          .map((question) => (
-            <Segment key={question.id}>
-              <QuestionItem question={question} />
-            </Segment>
-          ))}
-      </Grid.Column>
-    </Grid>
+    {questions
+      .map((question) => (
+        <Segment key={question.id}>
+          <QuestionItem question={question} />
+        </Segment>
+      ))}
   </Container>
 );
 

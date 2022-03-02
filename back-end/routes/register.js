@@ -13,7 +13,7 @@ registerRouter.post('/add-link', async (req, res) => {
   if (!req.session.user || !req.session.user.isAdmin) throw new AuthorizationError('Adding registration links requires admin privileges');
   const newLink = crypto.randomBytes(32).toString('base64url');
   links = links.concat(newLink);
-  setTimeout(() => { links = links.filter((link) => link !== newLink); }, 1000 * 60 * 5);
+  setTimeout(() => { links = links.filter((link) => link !== newLink); }, process.env.NODE_ENV === 'test' ? 5 * 1000 : 1000 * 60 * 5);
   res.status(201).send(newLink);
 });
 

@@ -9,7 +9,7 @@ const PracticeExam = () => {
   const [numOfQuestions, setNumOfQuestions] = useState({ ee: 0, esas: 0, math: 0 });
   const [started, setStarted] = useState(false);
 
-  const takeAnother = () => {
+  const finish = () => {
     setStarted(false);
     setNumOfQuestions({ ee: 0, esas: 0, math: 0 });
   };
@@ -33,7 +33,7 @@ const PracticeExam = () => {
           </>
         )
         : (
-          <ExamProper numOfQuestions={numOfQuestions} takeAnother={takeAnother} />
+          <ExamProper numOfQuestions={numOfQuestions} finish={finish} />
         )}
     </Container>
   );

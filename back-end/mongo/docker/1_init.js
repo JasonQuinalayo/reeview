@@ -35,7 +35,6 @@ db.questions.insertMany(esas2020.map((q) => ({
     d: q.optionD,
   },
   answer: q.answer.charAt(q.answer.length - 1).toLowerCase(),
-  maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
   category: 'esas',
   submitted: {
     by: user.insertedId,
@@ -57,7 +56,6 @@ db.questions.insertMany(esas2019.map((q) => ({
     d: q.optionD,
   },
   answer: q.answer.charAt(q.answer.length - 1).toLowerCase(),
-  maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
   category: 'esas',
   submitted: {
     by: user.insertedId,
@@ -79,7 +77,6 @@ db.questions.insertMany(esas2018.map((q) => ({
     d: q.optionD,
   },
   answer: q.answer.charAt(q.answer.length - 1).toLowerCase(),
-  maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
   category: 'esas',
   submitted: {
     by: user.insertedId,
@@ -101,7 +98,6 @@ db.questions.insertMany(esas2017.map((q) => ({
     d: q.optionD,
   },
   answer: q.answer.charAt(q.answer.length - 1).toLowerCase(),
-  maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
   category: 'esas',
   submitted: {
     by: user.insertedId,
@@ -123,7 +119,6 @@ db.questions.insertMany(ee2019.map((q) => ({
     d: q.optionD,
   },
   answer: q.answer.charAt(q.answer.length - 1).toLowerCase(),
-  maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
   category: 'ee',
   submitted: {
     by: user.insertedId,
@@ -145,7 +140,6 @@ db.questions.insertMany(ee2018.map((q) => ({
     d: q.optionD,
   },
   answer: q.answer.charAt(q.answer.length - 1).toLowerCase(),
-  maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
   category: 'ee',
   submitted: {
     by: user.insertedId,
@@ -167,7 +161,6 @@ db.questions.insertMany(ee2017.map((q) => ({
     d: q.optionD,
   },
   answer: q.answer.charAt(q.answer.length - 1).toLowerCase(),
-  maximumLengthChoice: Math.max(q.optionA.length, q.optionB.length, q.optionC.length, q.optionD.length),
   category: 'esas',
   submitted: {
     by: user.insertedId,
