@@ -6,7 +6,7 @@ import {
 } from 'semantic-ui-react';
 import { useStateValue } from '../../state';
 import ExamQuestionItem from '../../components/ExamQuestionItem';
-import { questionObjectToArray } from '../../utils';
+import { objectValuesToArray } from '../../utils';
 
 const Results = ({ examItems }) => {
   const score = useMemo(() => (
@@ -41,9 +41,9 @@ const ExamProper = ({ numOfQuestions, finish }) => {
   const [submitted, setSubmitted] = useState(false);
   const [examItems, setExamItems] = useState(
     shuffle(
-      sampleSize(questionObjectToArray(approvedQuestions.ee), numOfQuestions.ee).concat(
-        sampleSize(questionObjectToArray(approvedQuestions.esas), numOfQuestions.esas),
-        sampleSize(questionObjectToArray(approvedQuestions.math), numOfQuestions.math),
+      sampleSize(objectValuesToArray(approvedQuestions.ee), numOfQuestions.ee).concat(
+        sampleSize(objectValuesToArray(approvedQuestions.esas), numOfQuestions.esas),
+        sampleSize(objectValuesToArray(approvedQuestions.math), numOfQuestions.math),
       ).map((question) => ({ question, answer: { user: '', correct: question.answer } })),
     ),
   );

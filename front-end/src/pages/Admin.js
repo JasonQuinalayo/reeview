@@ -27,6 +27,15 @@ const Admin = () => {
       setError(e.response.data.error);
     }
   };
+
+  const promote = async (id) => {
+    try {
+      const updatedUser = await userService.promote(id);
+      setUsers((prev) => prev.filter((e) => e.id !== id).concat(updatedUser));
+    } catch (e) {
+      alert(e);
+    }
+  };
   return (
     <Container>
       <Confirm
@@ -65,7 +74,15 @@ const Admin = () => {
               <strong>{user.name}</strong>
               {' -- '}
               {user.isAdmin ? 'Admin'
-                : <Button size="tiny">Promote</Button>}
+                : (
+                  <Button
+                    size="tiny"
+                    type="button"
+                    onClick={() => promote(user.id)}
+                  >
+                    Promote
+                  </Button>
+                )}
             </Grid.Column>
           ))}
         </Grid>

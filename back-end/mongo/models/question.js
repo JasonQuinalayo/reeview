@@ -32,7 +32,8 @@ const questionSchema = new mongoose.Schema({
   year: {
     type: Number,
     validate: {
-      validator: (v) => v >= 1970 && v <= (new Date()).getFullYear(),
+      validator: (v) => ((
+        v >= 1970) && (v <= (new Date()).getFullYear())),
       message: (v) => `${v} is not a valid year`,
     },
   },

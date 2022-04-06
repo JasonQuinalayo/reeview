@@ -3,9 +3,12 @@ import React, { createContext, useContext, useReducer } from 'react';
 const initialState = {
   user: null,
   questions: {
-    ee: {},
-    esas: {},
-    math: {},
+    approved: {
+      ee: {},
+      esas: {},
+      math: {},
+    },
+    pending: [],
   },
 };
 

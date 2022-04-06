@@ -6,7 +6,6 @@ const ExamQuestionItem = ({ question, answerState, updateFunction }) => {
     if (!updateFunction) return;
     updateFunction(value);
   };
-  console.log(answerState);
   return (
     <Container>
       <div className="pre-wrap-whitespace">

@@ -4,11 +4,12 @@ export const config = {
   backendUrl: 'http://localhost:3000/api',
 };
 
-export const questionObjectToArray = (questions) => {
-  const results = [];
-  Object.keys(questions).forEach((q) => results.push(questions[q]));
-  return results;
-};
+export const objectValuesToArray = (questions) => Object.keys(questions).map((q) => questions[q]);
+
+export const approvedQuestionsAsArray = (questions) => (
+  objectValuesToArray(questions.ee)
+    .concat(objectValuesToArray(questions.esas)).concat(objectValuesToArray(questions.math))
+);
 
 export const fetchQuestions = async (dispatch, questionsService) => {
   const questions = await questionsService.getQuestions();

@@ -3,7 +3,7 @@ import {
   Container, Popup, Header, Icon, Segment, Transition, Button, Grid, Divider,
 } from 'semantic-ui-react';
 import { useStateValue } from '../../state';
-import QuestionItem from '../../components/QuestionItem';
+import { ApprovedQuestionCard } from '../../components/QuestionItem';
 
 const ResultItem = ({ singleObjectQuestions, result, examQuestions }) => {
   const [showItems, setShowItems] = useState(false);
@@ -27,7 +27,7 @@ const ResultItem = ({ singleObjectQuestions, result, examQuestions }) => {
                 >
                   <div className="popup-content">
                     <Header size="small">{index + 1}</Header>
-                    <QuestionItem question={singleObjectQuestions[examQuestions[index]]} />
+                    <ApprovedQuestionCard question={singleObjectQuestions[examQuestions[index]]} />
                     <Divider hidden />
                     {`${result.name}'s Answer: ${answer.toUpperCase()}`}
                   </div>

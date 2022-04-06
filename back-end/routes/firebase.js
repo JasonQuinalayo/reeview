@@ -1,15 +1,13 @@
 const firebase = require('express').Router();
 // eslint-disable-next-line import/no-unresolved
-const { initializeApp, applicationDefault } = require('firebase-admin/app');
-// eslint-disable-next-line import/no-unresolved
-const { getAuth } = require('firebase-admin/auth');
+const firebaseAdmin = require('firebase-admin');
 
 const { firebaseConfig } = require('../utils/config');
 
-initializeApp({ credentials: applicationDefault() });
+firebaseAdmin.initializeApp({ credentials: firebaseAdmin.applicationDefault });
 
 firebase.get('/token', async (req, res) => {
-  const token = await getAuth().createCustomToken(req.session.user.id);
+  const token = await firebaseAdmin.getAuth().createCustomToken(req.session.user.id);
   res.send(token);
 });
 

@@ -1,8 +1,11 @@
 import React from 'react';
-import { Container, Label } from 'semantic-ui-react';
+import {
+  Button, Container, Divider, Label,
+} from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
-const Card = ({ question }) => (
-  <Container>
+const QuestionCard = ({ question }) => (
+  <>
     <div className="pre-wrap-whitespace">
       {question.question}
     </div>
@@ -27,7 +30,44 @@ const Card = ({ question }) => (
         {tag}
       </Label>
     ))}
+  </>
+);
+
+export const ApprovedQuestionCard = ({ question, onSuggestUpdate }) => (
+  <Container>
+    <QuestionCard question={question} />
+    {onSuggestUpdate
+    && (
+      <>
+        <Button size="mini" floated="right" onClick={onSuggestUpdate}>Suggest Update</Button>
+        {question.suggestedUpdates?.length > 0
+        && (
+          <>
+            <Divider />
+            <span>Suggested Updates</span>
+            <ul>
+              {question.suggestedUpdates.map((v) => (
+                <li key={v}><Link to={`/questions/${v}`}>{v}</Link></li>
+              ))}
+            </ul>
+          </>
+        )}
+      </>
+    )}
   </Container>
 );
 
-export default Card;
+export const PendingQuestionCard = ({ question, onApprove }) => (
+  <Container>
+    <QuestionCard question={question} />
+    {onApprove && <Button size="mini" floated="right" onClick={onApprove}>Approve</Button>}
+    {question.updateTo
+    && (
+      <>
+        <Divider />
+        <span>Update To: </span>
+        <Link to={`/questions/${question.updateTo}`}>{question.updateTo}</Link>
+      </>
+    )}
+  </Container>
+);

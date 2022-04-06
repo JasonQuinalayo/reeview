@@ -1,6 +1,7 @@
 const cors = require('cors');
 const express = require('express');
 const expressSession = require('express-session');
+const MemoryStore = require('memorystore')(expressSession);
 const crypto = require('crypto');
 const { createServer } = require('http');
 require('express-async-errors');
@@ -22,6 +23,9 @@ const sessionConfig = {
   secret: crypto.randomBytes(20).toString('hex'),
   resave: false,
   saveUninitialized: false,
+  store: new MemoryStore({
+    checkPeriod: 86400000,
+  }),
   cookie: { maxAge: 86400 * 1000, httpOnly: true },
 };
 if (process.env.NODE_ENV === 'production') sessionConfig.cookies.secure = true;
