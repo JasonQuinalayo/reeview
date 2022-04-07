@@ -19,7 +19,7 @@ import { useStateValue, setUser } from './state';
 import { userService, questionsService } from './services';
 import { fetchQuestions, approvedQuestionsAsArray } from './utils';
 
-if (process.env.NODE_ENV === 'development') axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 
 const AppWithLoggedInUser = () => {
   const [{ questions }] = useStateValue();
