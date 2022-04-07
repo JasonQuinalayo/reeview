@@ -39,6 +39,7 @@ app.use(express.json());
 app.use(express.static('build'));
 app.use('/api/register', registerRouter);
 app.use('/api/auth', authRouter);
+app.use((req, res, next) => { console.log(req.user); next(); });
 app.use(middleware.authWall);
 app.use('/api/user', userRouter);
 app.use('/api/questions', questionsRouter);
