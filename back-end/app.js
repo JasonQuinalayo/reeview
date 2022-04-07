@@ -28,7 +28,7 @@ const sessionConfig = {
   }),
   cookie: { maxAge: 86400 * 1000, httpOnly: true },
 };
-if (process.env.NODE_ENV === 'production') sessionConfig.cookies.secure = true;
+if (process.env.NODE_ENV === 'production') sessionConfig.cookie.secure = true;
 
 const session = expressSession(sessionConfig);
 
