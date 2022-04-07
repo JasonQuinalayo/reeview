@@ -1,7 +1,7 @@
 import { setQuestions } from './state';
 
 export const config = {
-  backendUrl: 'http://localhost:3000/api',
+  backendUrl: 'https://sleepy-atoll-34773.herokuapp.com/api',
 };
 
 export const objectValuesToArray = (questions) => Object.keys(questions).map((q) => questions[q]);
