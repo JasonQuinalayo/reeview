@@ -28,18 +28,23 @@ const sessionConfig = {
   }),
   cookie: { maxAge: 86400 * 1000, httpOnly: true },
 };
-if (process.env.NODE_ENV === 'production') sessionConfig.cookie.secure = true;
+
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+  sessionConfig.cookie.secure = true;
+}
 
 const session = expressSession(sessionConfig);
 
 app.use(session);
 socketServer(httpServer, session);
-if (process.env.NODE_ENV === 'development') app.use(cors({ origin: ['http://localhost:3001'], credentials: true }));
+if (process.env.NODE_ENV === 'development') {
+  app.use(cors({ origin: ['http://localhost:3001'], credentials: true }));
+}
 app.use(express.json());
 app.use(express.static('build'));
 app.use('/api/register', registerRouter);
 app.use('/api/auth', authRouter);
-app.use((req, res, next) => { console.log(req.sessionID); next(); });
 app.use(middleware.authWall);
 app.use('/api/user', userRouter);
 app.use('/api/questions', questionsRouter);
