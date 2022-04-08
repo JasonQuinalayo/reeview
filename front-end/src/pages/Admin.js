@@ -3,6 +3,7 @@ import {
   Button, Confirm, Container, Grid, Header, Input, Segment,
 } from 'semantic-ui-react';
 import { userService, registerService } from '../services';
+import { config } from '../utils';
 
 const Admin = () => {
   const [registrationLink, setRegistrationLink] = useState('');
@@ -22,7 +23,7 @@ const Admin = () => {
   const createRegistrationLink = async () => {
     try {
       const newRegistrationLink = await registerService.createLink();
-      setRegistrationLink(`https://sleepy-atoll-34773.herokuapp.com/register/${newRegistrationLink}`);
+      setRegistrationLink(`${config.backendUrl}/register/${newRegistrationLink}`);
     } catch (e) {
       setError(e.response.data.error);
     }

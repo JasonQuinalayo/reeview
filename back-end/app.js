@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const { createServer } = require('http');
 require('express-async-errors');
 const mongoose = require('mongoose');
+const path = require('path');
 const config = require('./utils/config');
 const middleware = require('./utils/middleware');
 const socketServer = require('./socketServer/socketServer');
@@ -41,15 +42,23 @@ socketServer(httpServer, session);
 if (process.env.NODE_ENV === 'development') {
   app.use(cors({ origin: ['http://localhost:3001'], credentials: true }));
 }
+
+const apiRouter = express.Router();
+apiRouter.use('/register', registerRouter);
+apiRouter.use('/auth', authRouter);
+apiRouter.use(middleware.authWall);
+apiRouter.use('/user', userRouter);
+apiRouter.use('/questions', questionsRouter);
+apiRouter.use('/firebase-token', firebaseRouter);
+apiRouter.use(middleware.unknownEndpoint);
+
 app.use(express.json());
 app.use(express.static('build'));
-app.use('/api/register', registerRouter);
-app.use('/api/auth', authRouter);
-app.use(middleware.authWall);
-app.use('/api/user', userRouter);
-app.use('/api/questions', questionsRouter);
-app.use('/api/firebase-token', firebaseRouter);
-app.use(middleware.unknownEndpoint);
+app.use('/api', apiRouter);
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build/index.html'));
+});
 app.use(middleware.errorHandler);
 
 module.exports = httpServer;
