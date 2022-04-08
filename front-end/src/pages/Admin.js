@@ -22,7 +22,7 @@ const Admin = () => {
   const createRegistrationLink = async () => {
     try {
       const newRegistrationLink = await registerService.createLink();
-      setRegistrationLink(`http://localhost:3001/register/${newRegistrationLink}`);
+      setRegistrationLink(`https://sleepy-atoll-34773.herokuapp.com/register/${newRegistrationLink}`);
     } catch (e) {
       setError(e.response.data.error);
     }
