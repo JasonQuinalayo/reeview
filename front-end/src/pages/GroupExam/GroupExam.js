@@ -13,7 +13,7 @@ const CreateLobbyModal = ({ onSubmit, modalOpen, onClose }) => {
   const [numOfQuestions, setNumOfQuestions] = useState({ ee: 0, esas: 0, math: 0 });
   const [timeInterval, setTimeInterval] = useState(5);
   const handleTimeIntervalInput = (e) => {
-    let val = e.target.value;
+    let val = parseInt(e.target.value, 10);
     if (val < 5) val = 5;
     else if (val > 30) val = 30;
     setTimeInterval(val);
@@ -30,7 +30,8 @@ const CreateLobbyModal = ({ onSubmit, modalOpen, onClose }) => {
         <Input
           label="Time interval between questions. (min: 5s, max : 30s)"
           value={timeInterval}
-          onChange={handleTimeIntervalInput}
+          onChange={(e) => setTimeInterval(e.target.value)}
+          onBlur={handleTimeIntervalInput}
         />
         <Divider hidden />
         <Button type="button" fluid onClick={() => onSubmit(numOfQuestions, timeInterval)}>Create</Button>
