@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     type: String, minlength: 6, maxlength: 40, required: true, match: /^[A-Za-z0-9]+$/,
   },
   name: {
-    type: String, minLength: 3, maxLength: 40, required: true, match: /^[A-Za-z0-9]+$/,
+    type: String, minLength: 3, maxLength: 40, required: true, match: /^[A-Za-z0-9 ]+$/,
   },
   isAdmin: { type: Boolean, default: false },
   passwordHash: { type: String, required: true },
