@@ -29,6 +29,8 @@ export const fetchQuestions = async (dispatch, questionsService) => {
 
 export const isAlphaNumeric = (str) => /^[A-Za-z0-9]+$/.test(str);
 
+export const isAlphaNumericWithSpace = (str) => /^[A-Za-z0-9 ]+$/.test(str);
+
 export const isAscii = (str) => {
   for (let i = 0; i < str.length; i++) if (str.charCodeAt(i) > 127) return false;
   return true;

@@ -7,7 +7,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { registerService } from '../services';
 import { useStateValue, setUser } from '../state';
-import { isAlphaNumeric, isAscii } from '../utils';
+import { isAlphaNumeric, isAscii, isAlphaNumericWithSpace } from '../utils';
 
 const Register = () => {
   const [, dispatch] = useStateValue();
@@ -38,8 +38,8 @@ const Register = () => {
         errors.name = 'Name must be at least 3 characters';
       } else if (values.name.length > 40) {
         errors.name = 'Too long!';
-      } else if (!isAlphaNumeric(values.name)) {
-        errors.username = 'Invalid characters';
+      } else if (!isAlphaNumericWithSpace(values.name)) {
+        errors.name = 'Invalid characters';
       }
 
       if (!values.password) {
