@@ -9,7 +9,7 @@ env:
   TEST_MONGODB_URI: mongodb://the_username:the_password@localhost:3456/test_db
 
 jobs:
-  simple_deployment_pipeline:
+  deployment_pipeline:
     runs-on: ubuntu-20.04
     defaults:
       run:
@@ -28,6 +28,7 @@ jobs:
       - name: test
         run: npm run test
       - name: deploy
+        working-directory: ./back-end
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip')}}
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
