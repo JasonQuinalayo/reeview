@@ -20,8 +20,6 @@ jobs:
         run: npm install  
       - name: docker db
         run: docker-compose up -d
-      - name: build
-        run: 'npm run build:ui'
       - name: test
         run: npm run test
       # - name: deploy
