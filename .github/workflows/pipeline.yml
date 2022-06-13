@@ -8,6 +8,9 @@ on:
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ./back-end
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -16,7 +19,7 @@ jobs:
       - name: npm install 
         run: npm install  
       - name: docker db
-        run: 'docker-compose up -d'
+        run: docker-compose up -d
       - name: build
         run: 'npm run build:ui'
       - name: test
