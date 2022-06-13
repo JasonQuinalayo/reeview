@@ -5,6 +5,9 @@ on:
     branches:
       - master
 
+env:
+  TEST_MONGODB_URI: mongodb://the_username:the_password@localhost:3456/test_db
+
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04

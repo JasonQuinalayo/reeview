@@ -55,6 +55,7 @@ apiRouter.use(middleware.unknownEndpoint);
 app.use(express.json());
 app.use(express.static('build'));
 app.use('/api', apiRouter);
+app.use('/healthcheck', (req, res) => { res.send('ok'); });
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build/index.html'));
