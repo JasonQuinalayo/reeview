@@ -23,6 +23,7 @@
       "jest": true
     }
   },
+  "eslintIgnore": ["/build"],
   "author": "Jason Quinalayo",
   "devDependencies": {
     "eslint": "^7.32.0",
