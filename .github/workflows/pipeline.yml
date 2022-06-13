@@ -28,7 +28,6 @@ jobs:
       - name: test
         run: npm run test
       - name: deploy
-        working-directory: ./back-end
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip')}}
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
@@ -36,5 +35,6 @@ jobs:
           heroku_app_name: "sleepy-atoll-34773"
           heroku_email: "quinalayojason@gmail.com"
           healthcheck: "https://sleepy-atoll-34773.herokuapp.com/healthcheck"
+          appdir: "back-end"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
