@@ -17,7 +17,7 @@ const Home = () => {
   return (
     <Container>
       <Segment>
-        <Header>Current admins(char):</Header>
+        <Header>Current admins:</Header>
         <List items={admins.map((admin) => admin.name)} />
       </Segment>
       <Image src={photo} size="big" centered />

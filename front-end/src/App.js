@@ -14,7 +14,7 @@ import GroupExam from './pages/GroupExam';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Admin from './pages/Admin';
-import jmon from './images/jmon.jpg';
+import cat from './images/reddit_cat.png';
 import { useStateValue, setUser } from './state';
 import { userService, questionsService } from './services';
 import { fetchQuestions, approvedQuestionsAsArray } from './utils';
@@ -94,7 +94,7 @@ const App = () => {
               </Header>
               <Grid columns={2} centered>
                 <Grid.Column>
-                  <Image centered src={jmon} />
+                  <Image centered src={cat} />
                 </Grid.Column>
                 <Grid.Column stretched>
                   <Switch>
