@@ -3,7 +3,7 @@ import {
   Container, Segment, List, Header, Image,
 } from 'semantic-ui-react';
 import { userService } from '../services';
-import photo from '../images/image1.jpeg';
+import photo from '../images/cate.webp';
 
 const Home = () => {
   const [admins, setAdmins] = useState([]);
