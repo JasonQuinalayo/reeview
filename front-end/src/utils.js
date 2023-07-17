@@ -2,7 +2,7 @@ import { setQuestions } from './state';
 
 export const config = {
   backendUrl: process.env.NODE_ENV === 'production'
-    ? 'https://sleepy-atoll-34773.herokuapp.com'
+    ? 'https://reeview.onrender.com/'
     : 'http://localhost:3000',
 };
 
