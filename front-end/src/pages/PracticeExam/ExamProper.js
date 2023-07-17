@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import sampleSize from 'lodash.samplesize';
 import shuffle from 'lodash.shuffle';
 import {
-  Button, Container, Grid, Segment, Icon, Divider,
+  Button, Container, Grid, Segment, Icon, Divider, Radio,
 } from 'semantic-ui-react';
 import { useStateValue } from '../../state';
 import ExamQuestionItem from '../../components/ExamQuestionItem';
@@ -12,12 +12,21 @@ const Results = ({ examItems }) => {
   const score = useMemo(() => (
     examItems.reduce((acc, cur) => (cur.answer.user === cur.answer.correct ? acc + 1 : acc), 0)),
   [examItems]);
+  const [mistakesOnly, setMistakesOnly] = useState(true);
   return (
     <Container>
       <Segment size="big">
         {`Score: ${score} / ${examItems.length}`}
+        <br />
+        <Radio
+          toggle
+          defaultChecked
+          label="Show mistakes only"
+          onClick={() => setMistakesOnly((p) => !p)}
+        />
       </Segment>
-      {examItems.map((item) => (
+      {examItems.filter((item) => !mistakesOnly
+      || (item.answer.user !== item.answer.correct)).map((item) => (
         <Segment key={item.question.id}>
           <ExamQuestionItem question={item.question} answerState={item.answer.user} />
           {item.answer.user === item.answer.correct
@@ -65,6 +74,7 @@ const ExamProper = ({ numOfQuestions, finish }) => {
     setCurrentPageItems(examItems
       .slice((currentPageNumber + 1) * 10, (currentPageNumber + 2) * 10));
     setCurrentPageNumber((p) => p + 1);
+    window.scrollTo(0, 0);
   };
 
   const handlePrevPage = () => {
@@ -72,6 +82,7 @@ const ExamProper = ({ numOfQuestions, finish }) => {
     setCurrentPageItems(examItems
       .slice((currentPageNumber - 1) * 10, (currentPageNumber) * 10));
     setCurrentPageNumber((p) => p - 1);
+    window.scrollTo(0, 0);
   };
 
   const retry = () => {
@@ -87,7 +98,7 @@ const ExamProper = ({ numOfQuestions, finish }) => {
         ? (
           <div>
             <Grid columns={3}>
-              <Grid.Column width={2} verticalAlign="middle">
+              <Grid.Column width={2} verticalAlign="bottom">
                 {currentPageNumber > 0
                   && <Button type="button" onClick={handlePrevPage}>Previous</Button>}
               </Grid.Column>
@@ -108,7 +119,7 @@ const ExamProper = ({ numOfQuestions, finish }) => {
                 {currentPageNumber === Math.floor(examItems.length / 10)
                   && <Button type="button" fluid onClick={() => { setSubmitted(true); updateExam(); }}>Submit</Button>}
               </Grid.Column>
-              <Grid.Column width={2} verticalAlign="middle">
+              <Grid.Column width={2} verticalAlign="bottom">
                 {currentPageNumber < Math.floor(examItems.length / 10)
                   && <Button type="button" onClick={handleNextPage}>Next</Button>}
               </Grid.Column>

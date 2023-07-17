@@ -12,7 +12,9 @@ const ExamQuestionItem = ({ question, answerState, updateFunction }) => {
         {question.question}
       </div>
       {Object.keys(question.choices).map((choice) => (
-        <div>
+        <div
+          key={question.id.concat(choice)}
+        >
           <Radio
             label={`${choice.toUpperCase()}. ${question.choices[choice]}`}
             name={`${question.id}-radioGroup`}
