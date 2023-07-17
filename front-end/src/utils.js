@@ -2,7 +2,7 @@ import { setQuestions } from './state';
 
 export const config = {
   backendUrl: process.env.NODE_ENV === 'production'
-    ? 'https://reeview.onrender.com/'
+    ? 'https://reeview.onrender.com'
     : 'http://localhost:3000',
 };
 
