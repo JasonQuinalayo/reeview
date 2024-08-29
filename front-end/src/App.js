@@ -19,7 +19,10 @@ import { useStateValue, setUser } from './state';
 import { userService, questionsService } from './services';
 import { fetchQuestions, approvedQuestionsAsArray } from './utils';
 
-if (process.env.NODE_ENV === 'development') axios.defaults.withCredentials = true;
+if (process.env.NODE_ENV === 'development') {
+  alert("In development mode, run 'npm start' on front-end folder and use credentials username: kvothe password:password and don't forget to run 'docker compose up' for the db!");
+  axios.defaults.withCredentials = true;
+}
 
 const AppWithLoggedInUser = () => {
   const [{ questions }] = useStateValue();
